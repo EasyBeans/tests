@@ -39,7 +39,6 @@
   <modules>
     <!-- Modules -->
     <module>env-entry</module>
-    <module>javanaming</module>
   </modules>
 
 
