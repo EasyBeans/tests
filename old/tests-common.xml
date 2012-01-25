@@ -1,0 +1,124 @@
+<!--
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ - EasyBeans
+ - Copyright (C) 2006-2007 Bull S.A.S.
+ - Contact: easybeans@ow2.org
+ -
+ - This library is free software; you can redistribute it and/or
+ - modify it under the terms of the GNU Lesser General Public
+ - License as published by the Free Software Foundation; either
+ - version 2.1 of the License, or any later version.
+ -
+ - This library is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ - Lesser General Public License for more details.
+ -
+ - You should have received a copy of the GNU Lesser General Public
+ - License along with this library; if not, write to the Free Software
+ - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ - USA
+ -
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ - $Id: tests-common.xml 6121 2012-01-17 13:44:12Z benoitf $
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ -->
+<project name="EasyBeans - Tests - Common" basedir="../">
+  <!-- Import common rules -->
+  <import file="../build/common.xml" />
+
+  <!-- Set the uncustomizable test properties -->
+  <property name="easybeans.src.dir" value="src/java/" />
+
+  <property name="tests.install.dir" value="easybeans-deploy" />
+  <property name="tests.dir" value="tests/" />
+  <property name="tests.src.dir" value="${tests.dir}/src/main/java/" />
+  <property name="tests.package" value="org/ow2/easybeans/tests/" />
+  <property name="tests.output.dir" value="${tests.dir}/output" />
+  <property name="tests.dist.dir" value="${tests.dir}/output/dist" />
+  <property name="tests.classes.dir" value="${tests.output.dir}/classes" />
+  <property name="tests.resource.dir" value="${tests.src.dir}/${tests.package}/common/etc" />
+  <property name="tests.lib.dir" value="${tests.dir}/lib" />
+  <property name="tests.cloverdb.dir" value="${tests.output.dir}/cloverdb" />
+
+  <!-- Set the customizable test properties -->
+  <property name="reports.dir" value="${tests.output.dir}/reports/" />
+  <property name="reports.enhancer.dir" value="${reports.dir}/enhancer/" />
+  <property name="reports.conformance.dir"
+            value="${reports.dir}/conformance/" />
+  <property name="reports.interceptors.dir"
+            value="${reports.dir}/interceptors/" />
+  <property name="reports.transaction.dir"
+            value="${reports.dir}/transaction/" />
+  <property name="tests.javadoc.dir" value="${tests.output.dir}/javadoc/" />
+
+
+
+  <!-- Remove generated directories/files -->
+  <target name="clean.classes" description="Remove generated files.">
+    <delete dir="${output.dir}/classes/" />
+    <delete dir="${tests.output.dir}/classes/" />
+  </target>
+
+  <!-- Remove generated directories/files -->
+  <target name="clean.ejb3s" description="Remove generated files.">
+    <delete dir="${tests.install.dir}" />
+  </target>
+
+  <!-- Remove generated directories/files -->
+  <target name="clean.javadoc" description="Remove generated files.">
+    <delete dir="${tests.dir}/javadoc" />
+  </target>
+
+  <!-- Remove generated directories/files -->
+  <target name="clean.reports" description="Remove generated files.">
+    <delete dir="${tests.dir}/reports" />
+  </target>
+
+  <!-- Remove generated directories/files -->
+  <target name="clean.all"
+          description="Remove all the generated files and directories">
+    <delete dir="${output.dir}" />
+    <delete dir="${tests.install.dir}" />
+    <delete dir="${tests.output.dir}" />
+  </target>
+
+  <!-- Generate EJB 3.0 Tests javadoc -->
+  <target name="javadoc" description="Build the EJB 3.0 Tests javadoc">
+    <mkdir dir="${tests.javadoc.dir}" />
+    <delete dir="${tests.javadoc.dir}" />
+    <javadoc destdir="${tests.javadoc.dir}"
+             access="private"
+             author="true"
+             stylesheetfile="${build.dir}/javadoc/easybeans.css"
+             windowtitle="EJB 3.0 Tests Documentation">
+      <taglet name="org.objectweb.easybeans.tests.taglets.TagInput"
+              path="${tests.classes.dir}" />
+      <taglet name="org.objectweb.easybeans.tests.taglets.TagOutput"
+              path="${tests.classes.dir}" />
+      <taglet name="org.objectweb.easybeans.tests.taglets.TagReference"
+              path="${tests.classes.dir}" />
+      <taglet name="org.objectweb.easybeans.tests.taglets.TagRequirement"
+              path="${tests.classes.dir}" />
+      <taglet name="org.objectweb.easybeans.tests.taglets.TagSetup"
+              path="${tests.classes.dir}" />
+      <packageset dir="${tests.src.dir}">
+        <include name="**" />
+      </packageset>
+      <doctitle>EJB 3.0 Tests Documentation</doctitle>
+      <classpath>
+        <path refid="base.classpath" />
+      </classpath>
+    </javadoc>
+  </target>
+
+  <!-- Ping App Server -->
+  <!-- TODO
+    <target name="ping" description="Ping EasyBeans server">
+        <easybeans easybeansroot="TODO" easybeansbase="TODO" mode="ping" />
+    </target>
+    -->
+
+
+
+</project>

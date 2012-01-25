@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	- EasyBeans
+	- Copyright (C) 2006 Bull S.A.S.
+	- Contact: easybeans@ow2.org
+	-
+	- This library is free software; you can redistribute it and/or
+	- modify it under the terms of the GNU Lesser General Public
+	- License as published by the Free Software Foundation; either
+	- version 2.1 of the License, or any later version.
+	-
+	- This library is distributed in the hope that it will be useful,
+	- but WITHOUT ANY WARRANTY; without even the implied warranty of
+	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	- Lesser General Public License for more details.
+	-
+	- You should have received a copy of the GNU Lesser General Public
+	- License along with this library; if not, write to the Free Software
+	- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+	- USA
+	-
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	- $Id: ejb-jar00.xml 5369 2010-02-24 14:58:19Z benoitf $
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+	version="3.0">
+
+	<enterprise-beans>
+		<!--  Bean -->
+		<message-driven>
+			<description>
+				Message-Driven for test simple environment entries.
+			</description>
+			<display-name>MDBSimpleEntryEnv</display-name>
+			<ejb-name>MDBSimpleEntryEnv</ejb-name>
+			<ejb-class>
+				org.ow2.easybeans.tests.common.ejbs.mdb.containermanaged.simpleentry.MDBSimpleEntryEnv
+			</ejb-class>
+			<env-entry>
+				<description>Declaration using annotation.</description>
+				<env-entry-name>simple/strDeclaration00</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>strDeclaration00</env-entry-value>
+			</env-entry>
+			<env-entry>
+				<description>Declaration using annotation.</description>
+				<env-entry-name>simple/strDeclaration01</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>strDeclaration01</env-entry-value>
+			</env-entry>
+			<env-entry>
+				<description>Declaration using XML.</description>
+				<env-entry-name>simple/strXMLDeclaration</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>strXMLDeclaration00</env-entry-value>
+			</env-entry>
+			<env-entry>
+				<description>
+					Injection in a field using annotation.
+				</description>
+				<env-entry-name>simple/strFieldInjection</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>strFieldInjection00</env-entry-value>
+			</env-entry>
+			<env-entry>
+				<description>
+					Injection in a method using annotation.
+				</description>
+				<env-entry-name>simple/strMethodInjection</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>strMethodInjection00</env-entry-value>
+			</env-entry>
+			<env-entry>
+				<description>
+					Injection in a field using XML.
+				</description>
+				<env-entry-name>
+					simple/strXMLFieldInjection
+				</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>
+					strXMLFieldInjection00
+				</env-entry-value>
+				<injection-target>
+					<injection-target-class>
+						org.ow2.easybeans.tests.common.ejbs.mdb.containermanaged.simpleentry.MDBSimpleEntryEnv
+					</injection-target-class>
+					<injection-target-name>
+						strXMLFieldInjection
+					</injection-target-name>
+				</injection-target>
+			</env-entry>
+			<env-entry>
+				<description>
+					Injection in a method using XML.
+				</description>
+				<env-entry-name>
+					simple/strXMLMethodInjection
+				</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>
+					strXMLMethodInjection00
+				</env-entry-value>
+				<injection-target>
+					<injection-target-class>
+						org.ow2.easybeans.tests.common.ejbs.mdb.containermanaged.simpleentry.MDBSimpleEntryEnv
+					</injection-target-class>
+					<injection-target-name>
+						setXMLMethodInjection
+					</injection-target-name>
+				</injection-target>
+			</env-entry>
+			<env-entry>
+				<description>
+					Used to check if the override works.
+				</description>
+				<env-entry-name>simple/strOverrideField</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>strOverrideField00</env-entry-value>
+			</env-entry>
+			<env-entry>
+				<description>
+					Override an injection in a field with a XML.
+				</description>
+				<env-entry-name>
+					simple/strOverrideFieldInjection
+				</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>
+					strOverrideFieldInjectiond00
+				</env-entry-value>
+				<injection-target>
+					<injection-target-class>
+						org.ow2.easybeans.tests.common.ejbs.mdb.containermanaged.simpleentry.MDBSimpleEntryEnv
+					</injection-target-class>
+					<injection-target-name>
+						strOverrideFieldInjection
+					</injection-target-name>
+				</injection-target>
+			</env-entry>
+			<env-entry>
+				<description>
+					Used to check if the override works.
+				</description>
+				<env-entry-name>simple/strOverrideMethod</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>strOverrideMethod00</env-entry-value>
+			</env-entry>
+			<env-entry>
+				<description>
+					Override an injection in a method with a XML.
+				</description>
+				<env-entry-name>
+					simple/strOverrideMethodInjection
+				</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>
+					strOverrideMethodInjection00
+				</env-entry-value>
+				<injection-target>
+					<injection-target-class>
+						org.ow2.easybeans.tests.common.ejbs.mdb.containermanaged.simpleentry.MDBSimpleEntryEnv
+					</injection-target-class>
+					<injection-target-name>
+						setOverrideMethodInjection
+					</injection-target-name>
+				</injection-target>
+			</env-entry>
+		</message-driven>
+	</enterprise-beans>
+</ejb-jar>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	- EasyBeans
+	- Copyright (C) 2006 Bull S.A.S.
+	- Contact: easybeans@ow2.org
+	-
+	- This library is free software; you can redistribute it and/or
+	- modify it under the terms of the GNU Lesser General Public
+	- License as published by the Free Software Foundation; either
+	- version 2.1 of the License, or any later version.
+	-
+	- This library is distributed in the hope that it will be useful,
+	- but WITHOUT ANY WARRANTY; without even the implied warranty of
+	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	- Lesser General Public License for more details.
+	-
+	- You should have received a copy of the GNU Lesser General Public
+	- License along with this library; if not, write to the Free Software
+	- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+	- USA
+	-
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	- $Id: ejb-jar00.xml 5369 2010-02-24 14:58:19Z benoitf $
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+	version="3.0">
+
+	<enterprise-beans>
+
+		<!--  Bean -->
+
+		<session>
+			<description>
+				SessionBean used to test persistence unit injection in
+				fields.
+			</description>
+			<display-name>SLSBPUnitRefXML00</display-name>
+			<ejb-name>SLSBPUnitRefXML00</ejb-name>
+			<ejb-class>
+				org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.persistenceunitref.SLSBPUnitRefXML00
+			</ejb-class>
+			<session-type>Stateless</session-type>
+			<persistence-unit-ref>
+				<persistence-unit-ref-name>
+					persistence/pu00
+				</persistence-unit-ref-name>
+				<persistence-unit-name>
+					testEntity00
+				</persistence-unit-name>
+				<injection-target>
+					<injection-target-class>
+						org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.persistenceunitref.SLSBPUnitRefXML00
+					</injection-target-class>
+					<injection-target-name>emf00</injection-target-name>
+				</injection-target>
+			</persistence-unit-ref>
+			<persistence-unit-ref>
+				<persistence-unit-ref-name>
+					persistence/puXMLDeclaration
+				</persistence-unit-ref-name>
+				<persistence-unit-name>
+					testEntity00
+				</persistence-unit-name>
+			</persistence-unit-ref>
+		</session>
+
+	</enterprise-beans>
+</ejb-jar>

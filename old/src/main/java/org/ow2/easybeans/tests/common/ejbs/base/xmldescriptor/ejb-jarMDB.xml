@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	- EasyBeans
+	- Copyright (C) 2006 Bull S.A.S.
+	- Contact: easybeans@ow2.org
+	-
+	- This library is free software; you can redistribute it and/or
+	- modify it under the terms of the GNU Lesser General Public
+	- License as published by the Free Software Foundation; either
+	- version 2.1 of the License, or any later version.
+	-
+	- This library is distributed in the hope that it will be useful,
+	- but WITHOUT ANY WARRANTY; without even the implied warranty of
+	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	- Lesser General Public License for more details.
+	-
+	- You should have received a copy of the GNU Lesser General Public
+	- License along with this library; if not, write to the Free Software
+	- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+	- USA
+	-
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	-$Id: ejb-jarMDB.xml 5369 2010-02-24 14:58:19Z benoitf $
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+	version="3.0">
+
+  <enterprise-beans>
+  <message-driven>
+      <description>Message Driven Bean MDBBasicQueueXML</description>
+      <display-name>Message Driven Bean MDBBasicQueueXML</display-name>
+      <ejb-name>MDBBasicQueueXML</ejb-name>
+      <ejb-class>org.ow2.easybeans.tests.common.ejbs.base.xmldescriptor.BasicMDBBean</ejb-class>
+      <messaging-type>javax.jms.MessageListener</messaging-type>
+      <transaction-type>Container</transaction-type>
+      <message-destination-type>javax.jms.Queue</message-destination-type>
+      <activation-config>
+          <activation-config-property>
+            <activation-config-property-name>destination</activation-config-property-name>
+            <activation-config-property-value>dummyQueue</activation-config-property-value>
+          </activation-config-property>
+          <activation-config-property>
+            <activation-config-property-name>destinationType</activation-config-property-name>
+            <activation-config-property-value>javax.jms.Queue</activation-config-property-value>
+          </activation-config-property>
+          <activation-config-property>
+            <activation-config-property-name>messageSelector</activation-config-property-name>
+            <activation-config-property-value>TYPE = 'org.ow2.easybeans.tests.common.ejbs.base.xmldescriptor.MDBBasicQueueXML'</activation-config-property-value>
+          </activation-config-property>
+      </activation-config>
+      <env-entry>
+        <env-entry-name>simple/type</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>org.ow2.easybeans.tests.common.ejbs.base.xmldescriptor.MDBBasicQueueXML</env-entry-value>
+      </env-entry>
+  </message-driven>
+
+  <message-driven>
+      <description>Message Driven Bean MDBBasicTopicXML</description>
+      <display-name>Message Driven Bean MDBBasicTopicXML</display-name>
+      <ejb-name>MDBBasicTopicXML</ejb-name>
+      <ejb-class>org.ow2.easybeans.tests.common.ejbs.base.xmldescriptor.BasicMDBBean</ejb-class>
+      <messaging-type>javax.jms.MessageListener</messaging-type>
+      <transaction-type>Container</transaction-type>
+      <message-destination-type>javax.jms.Topic</message-destination-type>
+      <activation-config>
+          <activation-config-property>
+            <activation-config-property-name>destination</activation-config-property-name>
+            <activation-config-property-value>dummyTopic</activation-config-property-value>
+          </activation-config-property>
+          <activation-config-property>
+            <activation-config-property-name>destinationType</activation-config-property-name>
+            <activation-config-property-value>javax.jms.Topic</activation-config-property-value>
+          </activation-config-property>
+          <activation-config-property>
+            <activation-config-property-name>messageSelector</activation-config-property-name>
+            <activation-config-property-value>TYPE = 'org.ow2.easybeans.tests.common.ejbs.base.xmldescriptor.MDBBasicTopicXML'</activation-config-property-value>
+          </activation-config-property>
+      </activation-config>
+      <env-entry>
+        <env-entry-name>simple/type</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>org.ow2.easybeans.tests.common.ejbs.base.xmldescriptor.MDBBasicTopicXML</env-entry-value>
+      </env-entry>
+  </message-driven>
+
+  </enterprise-beans>
+
+</ejb-jar>

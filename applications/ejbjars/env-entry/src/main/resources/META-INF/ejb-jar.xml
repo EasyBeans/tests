@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ - EasyBeans
+ - Copyright (C) 2011 Bull S.A.S.
+ - Contact: easybeans@ow2.org
+ -
+ - This library is free software; you can redistribute it and/or
+ - modify it under the terms of the GNU Lesser General Public
+ - License as published by the Free Software Foundation; either
+ - version 2.1 of the License, or any later version.
+ -
+ - This library is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ - Lesser General Public License for more details.
+ -
+ - You should have received a copy of the GNU Lesser General Public
+ - License along with this library; if not, write to the Free Software
+ - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ - USA
+ -
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ - $Id: ejb-jar.xml 5743 2011-02-28 16:02:42Z benoitf $
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ -->
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
+  version="3.1">
+
+
+  <enterprise-beans>
+
+    <session>
+      <ejb-name>EnvEntryBean</ejb-name>
+ 
+      <env-entry>
+        <env-entry-name>java:module/env/entry-boolean</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+        <env-entry-value>True</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:app/env/entry-boolean</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+        <env-entry-value>True</env-entry-value>
+      </env-entry>
+ 
+      <env-entry>
+        <env-entry-name>java:module/env/entry-byte</env-entry-name>
+        <env-entry-type>java.lang.Byte</env-entry-type>
+        <env-entry-value>1</env-entry-value>
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:app/env/entry-byte</env-entry-name>
+        <env-entry-type>java.lang.Byte</env-entry-type>
+        <env-entry-value>1</env-entry-value>
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:module/env/entry-character</env-entry-name>
+        <env-entry-type>java.lang.Character</env-entry-type>
+        <env-entry-value>f</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:app/env/entry-character</env-entry-name>
+        <env-entry-type>java.lang.Character</env-entry-type>
+        <env-entry-value>b</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:module/env/entry-string</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>Florent</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:app/env/entry-string</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>Benoit</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:module/env/entry-short</env-entry-name>
+        <env-entry-type>java.lang.Short</env-entry-type>
+        <env-entry-value>25</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:app/env/entry-short</env-entry-name>
+        <env-entry-type>java.lang.Short</env-entry-type>
+        <env-entry-value>20</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:module/env/entry-int</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>2503</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:app/env/entry-integer</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>2512</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:module/env/entry-long</env-entry-name>
+        <env-entry-type>java.lang.Long</env-entry-type>
+        <env-entry-value>10</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:app/env/entry-long</env-entry-name>
+        <env-entry-type>java.lang.Long</env-entry-type>
+        <env-entry-value>11</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:module/env/entry-float</env-entry-name>
+        <env-entry-type>java.lang.Float</env-entry-type>
+        <env-entry-value>25.03</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:app/env/entry-float</env-entry-name>
+        <env-entry-type>java.lang.Float</env-entry-type>
+        <env-entry-value>19.79</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:module/env/entry-double</env-entry-name>
+        <env-entry-type>java.lang.Double</env-entry-type>
+        <env-entry-value>2503</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:app/env/entry-double</env-entry-name>
+        <env-entry-type>java.lang.Double</env-entry-type>
+        <env-entry-value>1979</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:module/env/entry-class</env-entry-name>
+        <env-entry-type>java.lang.Class</env-entry-type>
+        <env-entry-value>org.ow2.easybeans.application.enventry.DummyEntryClass</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:app/env/entry-class</env-entry-name>
+        <env-entry-type>java.lang.Class</env-entry-type>
+        <env-entry-value>org.ow2.easybeans.application.enventry.DummyEntryClass</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:module/env/entry-enum</env-entry-name>
+        <env-entry-type>org.ow2.easybeans.application.enventry.MyEnum</env-entry-type>
+        <env-entry-value>FLORENT</env-entry-value>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:app/env/entry-enum</env-entry-name>
+        <env-entry-type>org.ow2.easybeans.application.enventry.MyEnum</env-entry-type>
+        <env-entry-value>BENOIT</env-entry-value>
+      </env-entry>
+
+    </session>
+
+
+  </enterprise-beans>
+
+</ejb-jar>
+  

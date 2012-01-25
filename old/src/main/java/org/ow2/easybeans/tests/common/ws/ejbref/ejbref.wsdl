@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ItfChecker"
+  targetNamespace="http://objectweb.org/easybeans/tests/common/ws/ejbref/gen"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tns="http://objectweb.org/easybeans/tests/common/ws/ejbref/gen"
+  xmlns:x1="http://objectweb.org/easybeans/tests/common/ws/ejbref/gen/types"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://objectweb.org/easybeans/tests/common/ws/ejbref/gen/types"
+      xmlns="http://www.w3.org/2001/XMLSchema"
+      elementFormDefault="qualified">
+      <element name="check">
+        <complexType />
+      </element>
+      <element name="checkResponse">
+        <complexType />
+      </element>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="checkRequest">
+    <wsdl:part element="x1:check" name="in" />
+  </wsdl:message>
+  <wsdl:message name="checkResponse">
+    <wsdl:part element="x1:checkResponse" name="out" />
+  </wsdl:message>
+  <wsdl:message name="WSException">
+  </wsdl:message>
+  <wsdl:portType name="ItfChecker">
+    <wsdl:operation name="check">
+      <wsdl:input message="tns:checkRequest" name="checkRequest" />
+      <wsdl:output message="tns:checkResponse"
+        name="checkResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Checker_SOAPBinding" type="tns:ItfChecker">
+    <soap:binding style="document"
+      transport="http://schemas.xmlsoap.org/soap/http" />
+
+    <wsdl:operation name="check">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="checkRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="checkResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap:fault name="WSException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+  </wsdl:binding>
+  <wsdl:service name="EjbRefService">
+    <wsdl:port binding="tns:Checker_SOAPBinding" name="EjbRefPort">
+      <soap:address
+        location="http://localhost:9000/SoapContext/EjbRefPort" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
+

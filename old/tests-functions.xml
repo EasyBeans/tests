@@ -1,0 +1,113 @@
+<!--
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ - EasyBeans
+ - Copyright (C) 2006-2007 Bull S.A.S.
+ - Contact: easybeans@ow2.org
+ -
+ - This library is free software; you can redistribute it and/or
+ - modify it under the terms of the GNU Lesser General Public
+ - License as published by the Free Software Foundation; either
+ - version 2.1 of the License, or any later version.
+ -
+ - This library is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ - Lesser General Public License for more details.
+ -
+ - You should have received a copy of the GNU Lesser General Public
+ - License along with this library; if not, write to the Free Software
+ - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ - USA
+ -
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ - $Id: tests-functions.xml 6121 2012-01-17 13:44:12Z benoitf $
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ -->
+<project name="EasyBeans - Common - Installer" basedir="../">
+
+  <target name="install.jar"
+          description="Creates the deployment jar of beans. DON'T CALL DIRECT THIS TASK.">
+    <delete dir="${tests.install.dir}/${tests.ejb.name}.jar" />
+    <mkdir dir="${tests.dist.dir}" />
+    <mkdir dir="${tests.install.dir}" />
+    <mkdir dir="${tests.install.dir}/${tests.ejb.name}.jar" />
+    <!-- Create the directory of ejbs -->
+    <copy todir="${tests.install.dir}/${tests.ejb.name}.jar">
+      <fileset dir="${tests.classes.dir}">
+        <patternset refid="ejb.patternset" />
+        <include name="${tests.package}/common/ejbs/base/**/*" />
+        <exclude name="${tests.package}/**/wrongspecification/*" />
+        <exclude name="${tests.package}/**/*.wsdl" />
+      </fileset>
+    </copy>
+    <copy todir="${tests.install.dir}/${tests.ejb.name}.jar">
+      <fileset dir="${tests.classes.dir}">
+        <include name="${tests.package}/common/**/*" />
+        <exclude name="${tests.package}/common/ejbs/**/*" />
+        <exclude name="${tests.package}/**/wrongspecification/*" />
+        <exclude name="${tests.package}/common/interceptors/lifecycle/**" />
+        <exclude name="${tests.package}/**/*.wsdl" />
+        <exclude name="${tests.package}/common/ws/**/*" />
+      </fileset>
+    </copy>
+    <antcall target="install.persistence" />
+    <antcall target="install.descriptor" />
+    <antcall target="install.ormapping" />
+    <antcall target="install.wsdl" inheritAll="true" inheritRefs="true" />
+    <!-- Create the jar of ejbs -->
+    <jar destfile="${tests.dist.dir}/${tests.ejb.name}.jar">
+      <fileset dir="${tests.install.dir}/${tests.ejb.name}.jar" />
+      <metainf dir="${tests.install.dir}/${tests.ejb.name}.jar/META-INF/">
+        <include name="*" />
+      </metainf>
+    </jar>
+  </target>
+
+  <target name="install.entities.only.jar"
+          description="Creates the deployment jar of beans. DON'T CALL DIRECT THIS TASK.">
+    <delete dir="${tests.install.dir}/${tests.ejb.name}.jar" />
+    <mkdir dir="${tests.install.dir}" />
+    <mkdir dir="${tests.install.dir}/${tests.ejb.name}.jar" />
+    <!-- Create the jar of ejbs -->
+    <copy todir="${tests.install.dir}/${tests.ejb.name}.jar">
+      <fileset dir="${tests.classes.dir}">
+        <patternset refid="ejb.patternset" />
+      </fileset>
+    </copy>
+    <antcall target="install.persistence" />
+    <antcall target="install.descriptor" />
+    <antcall target="install.ormapping" />
+    <antcall target="install.wsdl" inheritAll="true" inheritRefs="true" />
+  </target>
+
+  <target name="install.persistence" if="persistence.file">
+    <mkdir dir="${tests.install.dir}/${tests.ejb.name}.jar/META-INF/" />
+    <copy file="${persistence.file}"
+          tofile="${tests.install.dir}/${tests.ejb.name}.jar/META-INF/persistence.xml" />
+  </target>
+
+  <target name="install.ormapping" if="ormapping.file">
+    <mkdir dir="${tests.install.dir}/${tests.ejb.name}.jar/META-INF/" />
+    <copy file="${ormapping.file}"
+          todir="${tests.install.dir}/${tests.ejb.name}.jar/META-INF/"
+          flatten="true" />
+  </target>
+
+  <target name="install.descriptor" if="descriptor.file">
+    <mkdir dir="${tests.install.dir}/${tests.ejb.name}.jar/META-INF/" />
+    <copy file="${descriptor.file}"
+          tofile="${tests.install.dir}/${tests.ejb.name}.jar/META-INF/ejb-jar.xml" />
+  </target>
+
+  <target name="install.wsdl">
+    <mkdir dir="${tests.install.dir}/${tests.ejb.name}.jar/META-INF/" />
+    <mkdir dir="${tests.install.dir}/${tests.ejb.name}.jar/META-INF/wsdl" />
+    <copy todir="${tests.install.dir}/${tests.ejb.name}.jar/META-INF/wsdl"
+          flatten="true">
+      <fileset dir="${tests.src.dir}">
+        <patternset refid="wsdl.patternset" />
+      </fileset>
+    </copy>
+  </target>
+
+</project>

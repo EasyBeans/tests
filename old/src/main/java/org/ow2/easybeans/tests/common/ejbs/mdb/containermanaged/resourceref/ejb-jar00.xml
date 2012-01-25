@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - EasyBeans
+  - Copyright (C) 2006 Bull S.A.S.
+  - Contact: easybeans@ow2.org
+  -
+  - This library is free software; you can redistribute it and/or
+  - modify it under the terms of the GNU Lesser General Public
+  - License as published by the Free Software Foundation; either
+  - version 2.1 of the License, or any later version.
+  -
+  - This library is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  - Lesser General Public License for more details.
+  -
+  - You should have received a copy of the GNU Lesser General Public
+  - License along with this library; if not, write to the Free Software
+  - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+  - USA
+  -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - $Id: ejb-jar00.xml 5369 2010-02-24 14:58:19Z benoitf $
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+  version="3.0">
+
+  <enterprise-beans>
+    <!--  Bean -->
+    <message-driven>
+      <description>
+        Message-Driven for test resource references in the
+        environment.
+      </description>
+      <display-name>MDBResourceRef</display-name>
+      <ejb-name>MDBResourceRef</ejb-name>
+      <ejb-class>
+        org.ow2.easybeans.tests.common.ejbs.mdb.containermanaged.resourceref.MDBResourceRef
+      </ejb-class>
+      <resource-ref>
+        <description>Declaration using annotation.</description>
+        <res-ref-name>jdbc/dsDeclaration00</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <mapped-name>jdbc_1</mapped-name>
+      </resource-ref>
+
+            <resource-ref>
+                <description>Declaration using annotation.</description>
+                <res-ref-name>jdbc/dsDeclaration01</res-ref-name>
+                <res-type>javax.sql.DataSource</res-type>
+                <res-auth>Container</res-auth>
+                <mapped-name>jdbc_1</mapped-name>
+            </resource-ref>
+
+            <resource-ref>
+                <description>Declaration using XML.</description>
+                <res-ref-name>jdbc/dsXMLDeclaration</res-ref-name>
+                <res-type>javax.sql.DataSource</res-type>
+                <res-auth>Container</res-auth>
+                <mapped-name>jdbc_1</mapped-name>
+            </resource-ref>
+
+            <resource-ref>
+                <description>Injection in a field using XML.</description>
+                <res-ref-name>jdbc/dsXMLFieldInjection</res-ref-name>
+                <res-type>javax.sql.DataSource</res-type>
+                <res-auth>Container</res-auth>
+                <mapped-name>jdbc_1</mapped-name>
+                <injection-target>
+                    <injection-target-class>
+                           org.ow2.easybeans.tests.common.ejbs.mdb.containermanaged.resourceref.MDBResourceRef
+                    </injection-target-class>
+                    <injection-target-name>
+                        dsXMLFieldInjection
+                    </injection-target-name>
+                </injection-target>
+            </resource-ref>
+
+            <resource-ref>
+                <description>Injection in a method using XML.</description>
+                <res-ref-name>jdbc/dsXMLMethodInjection</res-ref-name>
+                <res-type>javax.sql.DataSource</res-type>
+                <res-auth>Container</res-auth>
+                <mapped-name>jdbc_1</mapped-name>
+                <injection-target>
+                    <injection-target-class>
+                           org.ow2.easybeans.tests.common.ejbs.mdb.containermanaged.resourceref.MDBResourceRef
+                    </injection-target-class>
+                    <injection-target-name>
+                        setXMLMethodInjection
+                    </injection-target-name>
+                </injection-target>
+            </resource-ref>
+
+            <resource-ref>
+                <description>Used to check if the override works.</description>
+                <res-ref-name>jdbc/dsOverrideField</res-ref-name>
+                <res-type>javax.sql.DataSource</res-type>
+                <res-auth>Container</res-auth>
+                <mapped-name>jdbc_1</mapped-name>
+            </resource-ref>
+
+            <resource-ref>
+                <description>Override an injection in a field with a XML.</description>
+                <res-ref-name>jdbc/dsOverrideFieldInjection</res-ref-name>
+                <res-type>javax.sql.DataSource</res-type>
+                <res-auth>Container</res-auth>
+                <mapped-name>jdbc_1</mapped-name>
+                <injection-target>
+                    <injection-target-class>
+                           org.ow2.easybeans.tests.common.ejbs.mdb.containermanaged.resourceref.MDBResourceRef
+                    </injection-target-class>
+                    <injection-target-name>
+                         dsOverrideFieldInjection
+                    </injection-target-name>
+                </injection-target>
+            </resource-ref>
+
+            <resource-ref>
+                <description>Used to check if the override works.</description>
+                <res-ref-name>jdbc/dsOverrideMethod</res-ref-name>
+                <res-type>javax.sql.DataSource</res-type>
+                <res-auth>Container</res-auth>
+                <mapped-name>jdbc_1</mapped-name>
+            </resource-ref>
+
+            <resource-ref>
+                <description>Override an injection in a method with a XML.</description>
+                <res-ref-name>jdbc/dsOverrideMethodInjection</res-ref-name>
+                <res-type>javax.sql.DataSource</res-type>
+                <res-auth>Container</res-auth>
+                <mapped-name>jdbc_1</mapped-name>
+                <injection-target>
+                    <injection-target-class>
+                           org.ow2.easybeans.tests.common.ejbs.mdb.containermanaged.resourceref.MDBResourceRef
+                    </injection-target-class>
+                    <injection-target-name>
+                         setOverrideMethodInjection
+                    </injection-target-name>
+                </injection-target>
+            </resource-ref>
+    </message-driven>
+  </enterprise-beans>
+</ejb-jar>

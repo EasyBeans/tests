@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - EasyBeans
+    - Copyright (C) 2006 Bull S.A.S.
+    - Contact: easybeans@ow2.org
+    -
+    - This library is free software; you can redistribute it and/or
+    - modify it under the terms of the GNU Lesser General Public
+    - License as published by the Free Software Foundation; either
+    - version 2.1 of the License, or any later version.
+    -
+    - This library is distributed in the hope that it will be useful,
+    - but WITHOUT ANY WARRANTY; without even the implied warranty of
+    - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    - Lesser General Public License for more details.
+    -
+    - You should have received a copy of the GNU Lesser General Public
+    - License along with this library; if not, write to the Free Software
+    - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+    - USA
+    -
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - $Id: ejb-jarCMT00.xml 5369 2010-02-24 14:58:19Z benoitf $
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+    version="3.0">
+
+    <enterprise-beans>
+        <!--  Bean -->
+        <session>
+            <description>
+                Session bean used to verify if the transaction attribute
+                can be defined by the deployment descriptor.
+            </description>
+            <display-name>SFSBCMTDeployDesc</display-name>
+            <ejb-name>SFSBCMTDeployDescRemote</ejb-name>
+            <business-remote>
+                org.ow2.easybeans.tests.common.ejbs.stateful.containermanaged.xmldescriptor.ItfCMTDeployDesc
+            </business-remote>
+            <ejb-class>
+                org.ow2.easybeans.tests.common.ejbs.stateful.containermanaged.xmldescriptor.SFSBCMTDeployDesc
+            </ejb-class>
+            <session-type>Stateful</session-type>
+            <transaction-type>Container</transaction-type>
+        </session>
+    </enterprise-beans>
+    <assembly-descriptor>
+        <container-transaction>
+            <method>
+                <ejb-name>SFSBCMTDeployDescRemote</ejb-name>
+                <method-name>*</method-name>
+            </method>
+            <trans-attribute>Required</trans-attribute>
+        </container-transaction>
+        <container-transaction>
+            <method>
+                <ejb-name>SFSBCMTDeployDescRemote</ejb-name>
+                <method-name>insertTable02</method-name>
+            </method>
+            <trans-attribute>Mandatory</trans-attribute>
+        </container-transaction>
+        <container-transaction>
+            <method>
+                <ejb-name>SFSBCMTDeployDescRemote</ejb-name>
+                <method-name>insertTable03</method-name>
+                <method-params>
+                    <method-param>java.lang.String</method-param>
+                    <method-param>java.lang.String</method-param>
+                </method-params>
+            </method>
+            <trans-attribute>Never</trans-attribute>
+        </container-transaction>
+    </assembly-descriptor>
+</ejb-jar>

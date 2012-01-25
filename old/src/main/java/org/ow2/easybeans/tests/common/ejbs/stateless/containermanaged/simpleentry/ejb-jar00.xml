@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - EasyBeans
+  - Copyright (C) 2006 Bull S.A.S.
+  - Contact: easybeans@ow2.org
+  -
+  - This library is free software; you can redistribute it and/or
+  - modify it under the terms of the GNU Lesser General Public
+  - License as published by the Free Software Foundation; either
+  - version 2.1 of the License, or any later version.
+  -
+  - This library is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  - Lesser General Public License for more details.
+  -
+  - You should have received a copy of the GNU Lesser General Public
+  - License along with this library; if not, write to the Free Software
+  - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+  - USA
+  -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - $Id: ejb-jar00.xml 5369 2010-02-24 14:58:19Z benoitf $
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<ejb-jar
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+  version="3.0">
+
+  <enterprise-beans>
+    <!--  Bean -->
+    <session>
+      <description>SessionBean to test simple environment entry injection.</description>
+      <display-name>SLSBSimpleEnvEntryFieldInjection00</display-name>
+      <ejb-name>SLSBSimpleEnvEntryFieldInjection00</ejb-name>
+      <ejb-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.simpleentry.SLSBSimpleEnvEntryFieldInjection00</ejb-class>
+      <session-type>Stateless</session-type>
+      <env-entry>
+        <env-entry-name>str00</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>STRING00</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>strWithDefaultValue</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>chr00</env-entry-name>
+        <env-entry-type>java.lang.Character</env-entry-type>
+        <env-entry-value>A</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>int00</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>12</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>bol00</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+        <env-entry-value>true</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>dbl00</env-entry-name>
+        <env-entry-type>java.lang.Double</env-entry-type>
+        <env-entry-value>100</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>bte00</env-entry-name>
+        <env-entry-type>java.lang.Byte</env-entry-type>
+        <env-entry-value>2</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>shr00</env-entry-name>
+        <env-entry-type>java.lang.Short</env-entry-type>
+        <env-entry-value>200</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>lng00</env-entry-name>
+        <env-entry-type>java.lang.Long</env-entry-type>
+        <env-entry-value>300</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.simpleentry.SLSBSimpleEnvEntryFieldInjection00/fltInjection</env-entry-name>
+        <env-entry-type>java.lang.Float</env-entry-type>
+        <env-entry-value>400</env-entry-value>
+      </env-entry>
+    </session>
+    <!--  Bean -->
+    <session>
+      <description>SessionBean to test simple environment entry injection by methods.</description>
+      <display-name>SLSBSimpleEnvEntryMethodInjection00</display-name>
+      <ejb-name>SLSBSimpleEnvEntryMethodInjection00</ejb-name>
+      <ejb-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.simpleentry.SLSBSimpleEnvEntryMethodInjection00</ejb-class>
+      <session-type>Stateless</session-type>
+      <env-entry>
+        <env-entry-name>str00</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>STRING00</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>chr00</env-entry-name>
+        <env-entry-type>java.lang.Character</env-entry-type>
+        <env-entry-value>A</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>int00</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>12</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>bol00</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+        <env-entry-value>true</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>dbl00</env-entry-name>
+        <env-entry-type>java.lang.Double</env-entry-type>
+        <env-entry-value>100</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>bte00</env-entry-name>
+        <env-entry-type>java.lang.Byte</env-entry-type>
+        <env-entry-value>2</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>shr00</env-entry-name>
+        <env-entry-type>java.lang.Short</env-entry-type>
+        <env-entry-value>200</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>lng00</env-entry-name>
+        <env-entry-type>java.lang.Long</env-entry-type>
+        <env-entry-value>300</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.simpleentry.SLSBSimpleEnvEntryMethodInjection00/fltInjection</env-entry-name>
+        <env-entry-type>java.lang.Float</env-entry-type>
+        <env-entry-value>400</env-entry-value>
+      </env-entry>
+    </session>
+    <!--  Bean -->
+    <session>
+      <description>SessionBean to test simple environment entry injection with the use of injection-target tag. When this tag is used, an env-entry-value is not required.</description>
+      <display-name>SLSBSimpleEnvEntryInjectionByDescriptor</display-name>
+      <ejb-name>SLSBSimpleEnvEntryInjectionByDescriptor</ejb-name>
+      <ejb-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.simpleentry.SLSBSimpleEnvEntryByDescriptor</ejb-class>
+      <session-type>Stateless</session-type>
+      <env-entry>
+        <description>This entry test the injection defined by injection-target tag.</description>
+        <env-entry-name>str00</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>STRING00</env-entry-value>
+        <injection-target>
+        	<injection-target-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.simpleentry.SLSBSimpleEnvEntryByDescriptor</injection-target-class>
+        	<injection-target-name>strInjected</injection-target-name>
+        </injection-target>
+      </env-entry>
+      <env-entry>
+        <description>This entry must not have an specified value, so the container will not override the field value defined in the bean class.</description>
+        <env-entry-name>StringEntry</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <injection-target>
+        	<injection-target-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.simpleentry.SLSBSimpleEnvEntryByDescriptor</injection-target-class>
+        	<injection-target-name>strNotOverride</injection-target-name>
+        </injection-target>
+      </env-entry>
+      </session>
+    <!--  Bean -->
+    <session>
+      <description>SessionBean to test simple environment entry injection by methods.</description>
+      <display-name>SLSBSimpleEnvEntryResourceAnnotationOnBeanClass00</display-name>
+      <ejb-name>SLSBSimpleEnvEntryResourceAnnotationOnBeanClass00</ejb-name>
+      <ejb-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.simpleentry.SLSBSimpleEnvEntryReference00</ejb-class>
+      <session-type>Stateless</session-type>
+      <env-entry>
+        <env-entry-name>str00</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>STRING00</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>chr00</env-entry-name>
+        <env-entry-type>java.lang.Character</env-entry-type>
+        <env-entry-value>A</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>int00</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>12</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>bol00</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+        <env-entry-value>true</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>dbl00</env-entry-name>
+        <env-entry-type>java.lang.Double</env-entry-type>
+        <env-entry-value>100</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>bte00</env-entry-name>
+        <env-entry-type>java.lang.Byte</env-entry-type>
+        <env-entry-value>2</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>shr00</env-entry-name>
+        <env-entry-type>java.lang.Short</env-entry-type>
+        <env-entry-value>200</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>lng00</env-entry-name>
+        <env-entry-type>java.lang.Long</env-entry-type>
+        <env-entry-value>300</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>flt00</env-entry-name>
+        <env-entry-type>java.lang.Float</env-entry-type>
+        <env-entry-value>400</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>fltAlone00</env-entry-name>
+        <env-entry-type>java.lang.Float</env-entry-type>
+        <env-entry-value>400</env-entry-value>
+      </env-entry>
+    </session>
+    <!--  Bean -->
+    <session>
+      <description>SessionBean to test if the @Resource is working with inheritance.</description>
+      <display-name>SLSBSimpleEnvEntryInheritance</display-name>
+      <ejb-name>SLSBSimpleEnvEntryInheritance</ejb-name>
+      <ejb-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.simpleentry.SLSBSimpleEnvEntryInheritance</ejb-class>
+      <session-type>Stateless</session-type>
+      <env-entry>
+        <env-entry-name>str00</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>STRING00</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>str01</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>STRING01</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>chr00</env-entry-name>
+        <env-entry-type>java.lang.Character</env-entry-type>
+        <env-entry-value>A</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>chr01</env-entry-name>
+        <env-entry-type>java.lang.Character</env-entry-type>
+        <env-entry-value>B</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>int00</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>12</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>bol00</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+        <env-entry-value>true</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>dbl00</env-entry-name>
+        <env-entry-type>java.lang.Double</env-entry-type>
+        <env-entry-value>100</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>bte00</env-entry-name>
+        <env-entry-type>java.lang.Byte</env-entry-type>
+        <env-entry-value>2</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>bte01</env-entry-name>
+        <env-entry-type>java.lang.Byte</env-entry-type>
+        <env-entry-value>3</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>shr00</env-entry-name>
+        <env-entry-type>java.lang.Short</env-entry-type>
+        <env-entry-value>200</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>shr01</env-entry-name>
+        <env-entry-type>java.lang.Short</env-entry-type>
+        <env-entry-value>201</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>lng00</env-entry-name>
+        <env-entry-type>java.lang.Long</env-entry-type>
+        <env-entry-value>300</env-entry-value>
+      </env-entry>
+      <env-entry>
+        <env-entry-name>org.ow2.easybeans.tests.common.ejbs.base.EBaseSimpleEnvEntry00/fltInjection</env-entry-name>
+        <env-entry-type>java.lang.Float</env-entry-type>
+        <env-entry-value>400</env-entry-value>
+      </env-entry>
+    </session>
+  </enterprise-beans>
+</ejb-jar>

@@ -1,0 +1,1517 @@
+<!--
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ - EasyBeans
+ - Copyright (C) 2006-2007 Bull S.A.S.
+ - Contact: easybeans@ow2.org
+ -
+ - This library is free software; you can redistribute it and/or
+ - modify it under the terms of the GNU Lesser General Public
+ - License as published by the Free Software Foundation; either
+ - version 2.1 of the License, or any later version.
+ -
+ - This library is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ - Lesser General Public License for more details.
+ -
+ - You should have received a copy of the GNU Lesser General Public
+ - License along with this library; if not, write to the Free Software
+ - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ - USA
+ -
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ - $Id: build.xml 6121 2012-01-17 13:44:12Z benoitf $
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ -->
+<project name="EasyBeans - Tests"
+         basedir="../"
+         default="tests.conformance"
+         xmlns:artifact="urn:maven-artifact-ant">
+  <import file="tests-common.xml" />
+
+  <!-- Run Application server -->
+  <target name="run.server" depends="init-maven-task">
+    <java fork="true" classname="org.ow2.easybeans.server.EasyBeans">
+      <!-- <jvmarg line="-Xint -Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,address=2504,suspend=y" /> -->
+      <!-- <jvmarg line="-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog -Dorg.apache.commons.logging.simplelog.defaultlog=trace" /> -->
+      <classpath>
+        <path refid="base.classpath" />
+        <path refid="test.classpath" />
+        <path location="${tests.classes.dir}" />
+      </classpath>
+    </java>
+  </target>
+
+  <!-- Run conformance tests -->
+  <target name="tests.conformance"
+          description="conformance tests"
+          depends="init-maven-task">
+
+    <delete dir="${reports.conformance.dir}" />
+    <mkdir dir="${reports.conformance.dir}" />
+    <testng outputDir="${reports.conformance.dir}" haltOnfailure="true">
+      <classpath>
+        <path refid="base.classpath" />
+        <path refid="test.classpath" />
+        <pathelement path="${tests.classes.dir}" />
+      </classpath>
+      <xmlfileset dir="${tests.src.dir}/${tests.package}"
+                  includes="**/testng_*.xml"
+                  excludes="testng_conformance.xml" />
+    </testng>
+  </target>
+
+  <target name="init.classes" depends="init-maven-task">
+    <artifact:dependencies filesetid="tests.fileset" usescope="runtime">
+      <dependency groupId="org.ow2.easybeans"
+                  artifactId="easybeans-tests"
+                  version="${product.version}"
+                  scope="runtime" />
+    </artifact:dependencies>
+
+    <mkdir dir="${tests.classes.dir}" />
+    <echo message="tests.classes.dir = ${tests.classes.dir} et version = ${product.version}"/>
+    <unjar dest="${tests.classes.dir}">
+      <patternset>
+        <include name="**" />
+      </patternset>
+      <fileset refid="tests.fileset" />
+    </unjar>
+  </target>
+
+  <!-- Convert conformance report to JUnit format -->
+  <target name="report.junit.format">
+    <junitreport todir="${reports.conformance.dir}">
+      <fileset dir="${reports.conformance.dir}">
+        <include name="*.xml" />
+        <!-- The testng-failed.xml causes loop in the junitreport software -->
+        <exclude name="*-failed.xml" />
+        <exclude name="*-failures.xml" />
+      </fileset>
+      <report format="noframes" todir="${reports.conformance.dir}" />
+    </junitreport>
+  </target>
+
+  <!-- Run interceptor tests -->
+  <target name="tests.interceptors" description="interceptors tests">
+    <delete dir="${reports.interceptors.dir}" />
+    <mkdir dir="${reports.interceptors.dir}" />
+    <testng classpathref="base.classpath"
+            outputDir="${reports.interceptors.dir}"
+            haltOnfailure="true">
+      <xmlfileset dir="${tests.src.dir}/${tests.package}/interceptors/"
+                  includes="**/testng_*.xml" />
+    </testng>
+  </target>
+
+  <!-- Run transaction tests -->
+  <target name="tests.transaction" description="transaction tests">
+    <delete dir="${reports.transaction.dir}" />
+    <mkdir dir="${reports.transaction.dir}" />
+    <testng classpathref="base.classpath"
+            outputDir="${reports.transaction.dir}"
+            haltOnfailure="true">
+      <xmlfileset dir="${tests.src.dir}/${tests.package}/transaction"
+                  includes="**/testng_suite.xml" />
+    </testng>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.sessionbean"
+          description="Creates the sessionbeans jar.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/*" />
+      <include name="${tests.package}/common/ejbs/stateless/beanmanaged/*" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/*" />
+      <include name="${tests.package}/common/ejbs/stateful/beanmanaged/*" />
+      <include name="${tests.package}/common/ejbs/**/local/*" />
+      <include name="${tests.package}/common/ejbs/entity/ebstore/*" />
+      <include name="${tests.package}/common/interceptors/lifecycle/postconstruct/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="sessionbean" />
+      <property name="persistence.file"
+                value="${tests.resource.dir}/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.stateful.remove"
+          description="Creates the stateful remove jar.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/remove/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="stateful.remove" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jars.entitymanager"
+          description="Creates entity beans jar.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/ebstore/" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/entitymanager/*" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/persistencectx/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.entitymanager" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.transaction"
+          description="Creates the sessionbeans jar.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/transaction/*" />
+      <include name="${tests.package}/common/ejbs/stateless/beanmanaged/transaction/*" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/transaction/*" />
+      <include name="${tests.package}/common/ejbs/mdb/containermanaged/transaction/*" />
+      <include name="${tests.package}/common/ejbs/mdb/beanmanaged/transaction/*" />
+      <include name="${tests.package}/common/ejbs/stateful/beanmanaged/transaction/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/*DatabaseManager*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/inheritance/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="transaction" />
+      <property name="persistence.file"
+                value="${tests.resource.dir}/persistence00.xml" />
+    </ant>
+  </target>
+
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.basic"
+          description="Creates the sessionbeans jar.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/basic/*" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/basic/*" />
+      <include name="${tests.package}/common/ejbs/base/ItfSimplePrint*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="basictest" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.security"
+          description="Creates the sessionbeans jar.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/security/*" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/security/*" />
+      <include name="${tests.package}/common/ejbs/base/security/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="securitytest" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.timerservice"
+          description="Creates the timerservice jar.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/**/timer/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/timersrvref/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/entity/ebstore/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="timerservice" />
+        <property name="descriptor.file"
+                  value="${tests.src.dir}/${tests.package}/common/ejbs/stateless/containermanaged/timersrvref/ejb-jar00.xml" />
+        <property name="persistence.file"
+                  value="${tests.resource.dir}/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.inheritance.cmt"
+          description="Creates a jar to inheritance tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/**/inheritance/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="inheritance.cmt" />
+      <property name="persistence.file"
+                value="${tests.resource.dir}/persistence00.xml" />
+    </ant>
+  </target>
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.persistencecontext.lifetime"
+          description="Creates a jar to persistence context lifetime tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/**/persistencectxlife/*" />
+      <include name="${tests.package}/common/ejbs/entity/ebstore/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="persistence.lifetime" />
+      <property name="persistence.file"
+                value="${tests.resource.dir}/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities"
+          description="Creates a jar with all entity beans in the test package.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/ebstore/" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.ebstore" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities.entitytest00"
+          description="Creates a jar with all entity beans in the test package.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/entitytest00/" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.entitytest00" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities.entitytest01"
+          description="Creates a jar with all entity beans in the test package.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/entitytest01/" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.entitytest01" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities.entitytest02"
+          description="Creates a jar with all entity beans in the test package.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/entitytest02/" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.entitytest02" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities.entitytest03"
+          description="Creates a jar with all entity beans in the test package.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/entitytest03/" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.entitytest03" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities.entitytest04"
+          description="Creates a jar with all entity beans in the test package.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/entitytest04/" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.entitytest04" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities.cascadeoperation"
+          description="Creates entity beans jar.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/customer/" />
+    <property name="session.package"
+              value="${tests.package}/common/ejbs/stateful/containermanaged/cascadeoperation" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+      <include name="${session.package}/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.cascadeoperation" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities.queries"
+          description="Creates entity beans jar.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/simpleentity/" />
+    <property name="session.package"
+              value="${tests.package}/common/ejbs/stateful/containermanaged/entitymanager" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+      <include name="${session.package}/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.queries" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities.flushoperation"
+          description="Creates entity beans jar.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/ebstore/" />
+    <property name="session.package"
+              value="${tests.package}/common/ejbs/stateful/containermanaged/flushoperation" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+      <include name="${session.package}/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.flushoperation" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities.resourceleveltransaction"
+          description="Creates entity beans jar.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/book/" />
+    <property name="session.package"
+              value="${tests.package}/common/ejbs/stateful/containermanaged/resourceleveltrans" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+      <include name="${session.package}/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.resourcelevel" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+
+
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities.ejbql"
+          description="Creates entity beans jar.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/customer/" />
+    <property name="session.package"
+              value="${tests.package}/common/ejbs/stateless/containermanaged/ejbql" />
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${entity.package}/*.class" />
+      <include name="${session.package}/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.ejbql" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.exception"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/exception/*.class" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/*DatabaseManager*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateless.ejb.xmldescriptor.exception" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateless/containermanaged/exception/ejb-jar.xml" />
+    </ant>
+  </target>
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.simple.environment.session"
+          description="Creates a stateless jar to test the simple environment.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/simpleentry/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="stateless.simpleentry.cmt" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateless/containermanaged/simpleentry/ejb-jar00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.simple.environment.messagedriven"
+          description="Creates a message-driven jar to test the simple environment.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/mdb/containermanaged/simpleentry/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="mdb.simpleentry.cmt" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/mdb/containermanaged/simpleentry/ejb-jar00.xml" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.ejb.reference.session"
+          description="Creates a stateless jar to test the ejb references.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/ejbref/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="stateless.ejb.reference.cmt" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateless/containermanaged/ejbref/ejb-jar00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.ejb2view"
+          description="Creates the jar with ejb 2.1 client view tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/ejb2view/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*.class" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="ejb2view" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateful/containermanaged/ejb2view/ejb-jarSF.xml" />
+
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.ejb2view.transaction"
+          description="Creates the jar with ejb 2.1 client view tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/ejb2view/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="ejb2view.transaction" />
+    </ant>
+  </target>
+
+
+  <target name="install.jar.tests.ejb.reference.messagedriven"
+          description="Creates a message-driven jar to test the ejb references.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/mdb/containermanaged/ejbref/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="mdb.ejb.reference.cmt" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/mdb/containermanaged/ejbref/ejb-jar00.xml" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <target name="install.jar.tests.ejb.reference.webservice"
+          description="Creates a jar to test the ejb references.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/ws/ejbref/*" />
+      <include name="${tests.package}/common/ws/ejbref/**/*" />
+    </patternset>
+    <patternset id="wsdl.patternset">
+      <include name="${tests.package}/common/ws/ejbref/*.wsdl" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="ws.ejb.reference.cmt" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.sflocal"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/base/xmldescriptor/*" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/xmldescriptor/*XmlDescriptorTester01.class" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/xmldescriptor/ItfXmlDescriptor*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateful.ejb.xmldescriptor.bmtlocal" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/base/xmldescriptor/ejb-jarSFLocal.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.sfremote"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/base/xmldescriptor/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateful.ejb.xmldescriptor.bmtremote" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/base/xmldescriptor/ejb-jarSFRemote.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.sllocal"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/base/xmldescriptor/*" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/xmldescriptor/*XmlDescriptorTester00.class" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/xmldescriptor/ItfXmlDescriptor*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateless.ejb.xmldescriptor.bmtlocal" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/base/xmldescriptor/ejb-jarSLLocal.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.slremote"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/base/xmldescriptor/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateless.ejb.xmldescriptor.bmtremote" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/base/xmldescriptor/ejb-jarSLRemote.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.override"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/xmldescriptor/*Override*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateless.ejb.xmldescriptor.override00" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateful/containermanaged/xmldescriptor/ejb-jarSLSB.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.cmt"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/xmldescriptor/*CMT*.class" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/*DatabaseManager*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateless.ejb.xmldescriptor.cmt00" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateful/containermanaged/xmldescriptor/ejb-jarCMT00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.transactionattribute"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/xmldescriptor/*TransAttribute*.class" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/*DatabaseManager*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateless.ejb.xmldescriptor.cmt01" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateful/containermanaged/xmldescriptor/ejb-jarCMT01.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.interceptor00"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/interceptorxml/*InterceptorXML.class" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*.class" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*.class" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/interceptorxml/*Tester00.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateful.ejb.xmldescriptor.interceptor00" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateful/containermanaged/interceptorxml/ejb-jar00.xml" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.interceptor01"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/interceptorxml/*InterceptorXML.class" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*.class" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*.class" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/interceptorxml/*Tester01.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateful.ejb.xmldescriptor.interceptor01" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateful/containermanaged/interceptorxml/ejb-jar01.xml" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.interceptor02"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/interceptorxml/*InterceptorXML.class" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*.class" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*.class" />
+      <include name="${tests.package}/common/ejbs/stateful/containermanaged/interceptorxml/*Tester02.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateful.ejb.xmldescriptor.interceptor02" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateful/containermanaged/interceptorxml/ejb-jar02.xml" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.interceptor03"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/interceptors/business/resourceref/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/interceptorxml/*.class" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateless.ejb.xmldescriptor.interceptor03" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateless/containermanaged/interceptorxml/ejb-jar00.xml" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.xmldescriptor.ejb-jar.mdb"
+          description="Creates a jar to deployment descriptor tests.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/base/xmldescriptor/*MDB*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="mdb.xmldescriptor" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/base/xmldescriptor/ejb-jarMDB.xml" />
+      <property name="persistence.file"
+                value="${tests.resource.dir}/persistence00.xml" />
+    </ant>
+  </target>
+
+
+    <!-- Install Test Jar -->
+    <target name="install.jar.tests.xmldescriptor.ejb-jar.security"
+            description="Creates a jar to deployment descriptor tests.">
+      <!-- Below are the properties used by common script -->
+      <!-- Pattern for EJB -->
+      <patternset id="ejb.patternset">
+        <include name="${tests.package}/common/ejbs/stateless/containermanaged/securityxml/*.class" />
+      </patternset>
+      <!-- Call task -->
+      <ant antfile="${tests.dir}/tests-functions.xml"
+           target="install.jar"
+           inheritAll="true"
+           inheritRefs="true">
+        <!-- JAR name -->
+        <property name="tests.ejb.name"
+                  value="stateless.ejb.xmldescriptor.security01" />
+        <property name="descriptor.file"
+                  value="${tests.src.dir}/${tests.package}/common/ejbs/stateless/containermanaged/securityxml/ejb-jarSLSB01.xml" />
+      </ant>
+    </target>
+
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.resource.reference.session"
+          description="Creates a stateless jar to test the resource references.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/resourceref/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateless.resource.reference.cmt" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateless/containermanaged/resourceref/ejb-jar00.xml" />
+    </ant>
+    <!--Call task-->
+    <antcall target="install.jar.tests.timerservice" />
+    <antcall target="install.jar.tests.usertransaction.reference" />
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.resource.reference.messagedriven"
+          description="Creates a message-driven jar to test the resource references.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/mdb/containermanaged/resourceref/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="mdb.resource.reference.cmt" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/mdb/containermanaged/resourceref/ejb-jar00.xml" />
+      <property name="persistence.file"
+                value="${tests.resource.dir}/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.persistenceunit.reference"
+          description="Creates a stateless jar to test persistence unit references.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/persistenceunitref/*" />
+      <include name="${tests.package}/common/ejbs/entity/ebstore/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateless.persistenceunit.reference.cmt" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateless/containermanaged/persistenceunitref/ejb-jar00.xml" />
+      <property name="persistence.file"
+                value="${tests.resource.dir}/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.persistencecontext.reference"
+          description="Creates a stateless jar to test persistence context references.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/persistencectxref/*" />
+      <include name="${tests.package}/common/ejbs/entity/ebstore/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateless.persistencecontext.reference.cmt" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateless/containermanaged/persistencectxref/ejb-jar00.xml" />
+      <property name="persistence.file"
+                value="${tests.resource.dir}/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.usertransaction.reference"
+          description="Creates a stateless jar to test user transaction references.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/stateless/beanmanaged/usertxref/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name"
+                value="stateless.usertransaction.reference.cmt" />
+      <property name="descriptor.file"
+                value="${tests.src.dir}/${tests.package}/common/ejbs/stateless/beanmanaged/usertxref/ejb-jar00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.interceptor.business"
+          description="Creates a jar to test businnes interceptor">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/**/interceptoraccess/*" />
+      <include name="${tests.package}/common/ejbs/**/interceptororder/*" />
+      <include name="${tests.package}/common/ejbs/**/interceptorexception/*" />
+      <include name="${tests.package}/common/ejbs/mdb/**/interceptor/*" />
+      <include name="${tests.package}/common/ejbs/entity/ebstore/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="interceptors.business" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.interceptor.invocationcontext"
+          description="Creates a jar to test invocationcontext object for interceptors">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/**/invocationcontext/*" />
+      <include name="${tests.package}/common/interceptors/lifecycle/postconstruct/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="interceptors.invocationcontext" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.interceptor.lifecycle"
+          description="Creates a jar to test interceptor for licycle callbacks.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/**/lifecycle/**/*" />
+      <include name="${tests.package}/common/**/lifecallback/**/*" />
+      <include name="${tests.package}/common/ejbs/entity/ebstore/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="interceptors.lifecycle.callback" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.sessionbean.interface"
+          description="Creates a jar to test the SessionBean interface.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/**/sbinterface/**/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="sessionbean.interface" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.messagedriven.interface"
+          description="Creates a jar to test the MessageDrivenBean interface.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/**/mdbinterface/**/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="mdb.mdbinterface" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.messagedrivencontext"
+          description="Creates a jar to test the MessageDrivenContext.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/**/mdb/**/context/**/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="mdb.mdbcontext" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.sessioncontext"
+          description="Creates a jar to test the SessionContext.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/**/sessioncontext/**/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="beans.sessioncontext" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jars.entities.listeners"
+          description="Creates an entity beans jar.">
+    <property name="entity.package"
+              value="${tests.package}/common/ejbs/entity/geometricforms/" />
+    <property name="session.package"
+              value="${tests.package}/common/ejbs/stateless/containermanaged/listeners" />
+    <property name="listerns.package"
+              value="${tests.package}/common/listeners" />
+    <property name="callbacklogger.package"
+              value="${tests.package}/common/ejbs/entity/callbacklogger" />
+    <property name="callbackloggerfacade.package"
+              value="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger" />
+
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/entity/geometricforms/*.class" />
+      <include name="${session.package}/*.class" />
+      <include name="${listerns.package}/*.class" />
+      <include name="${callbacklogger.package}/*.class" />
+      <include name="${callbackloggerfacade.package}/*.class" />
+
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.entities.only.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="entity.listeners" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${entity.package}/persistence.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install.jar.tests.messagedriven.contract"
+          description="Creates a jar to test Message-Driven Beans.">
+    <!-- Below are the properties used by common script -->
+    <!-- Pattern for EJB -->
+    <patternset id="ejb.patternset">
+      <include name="${tests.package}/common/ejbs/mdb/**/access/*" />
+      <include name="${tests.package}/common/ejbs/mdb/**/basic/*" />
+      <include name="${tests.package}/common/ejbs/entity/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/stateless/containermanaged/callbacklogger/*" />
+      <include name="${tests.package}/common/ejbs/entity/ebstore/*" />
+    </patternset>
+    <!-- Call task -->
+    <ant antfile="${tests.dir}/tests-functions.xml"
+         target="install.jar"
+         inheritAll="true"
+         inheritRefs="true">
+      <!-- JAR name -->
+      <property name="tests.ejb.name" value="mdb.contract" />
+      <property name="persistence.file"
+                value="${tests.src.dir}/${tests.package}/common/etc/persistence00.xml" />
+    </ant>
+  </target>
+
+  <!-- Install Test Jar -->
+  <target name="install"
+          description="Creates all jars."
+          depends="init-maven-task, init.classes">
+    <antcall target="install.jar.tests.basic" />
+    <antcall target="install.jar.tests.sessionbean" />
+    <antcall target="install.jar.tests.transaction" />
+    <antcall target="install.jar.tests.security" />
+    <antcall target="install.jar.tests.sessionbean.interface" />
+    <antcall target="install.jar.tests.simple.environment.session" />
+    <antcall target="install.jar.tests.simple.environment.messagedriven" />
+    <antcall target="install.jar.tests.ejb.reference.session" />
+    <antcall target="install.jar.tests.ejb.reference.messagedriven" />
+    <antcall target="install.jar.tests.resource.reference.session" />
+    <antcall target="install.jar.tests.resource.reference.messagedriven" />
+    <antcall target="install.jar.tests.persistenceunit.reference" />
+    <antcall target="install.jar.tests.persistencecontext.reference" />
+    <antcall target="install.jar.tests.persistencecontext.lifetime" />
+    <antcall target="install.jar.tests.sessioncontext" />
+    <!--    <antcall target="install.jars.entities" /> -->
+    <antcall target="install.jars.entities.cascadeoperation" />
+    <antcall target="install.jars.entities.flushoperation" />
+    <antcall target="install.jars.entitymanager" />
+    <antcall target="install.jars.entities.resourceleveltransaction" />
+    <antcall target="install.jar.tests.interceptor.business" />
+    <antcall target="install.jar.tests.interceptor.invocationcontext" />
+    <antcall target="install.jar.tests.interceptor.lifecycle" />
+    <antcall target="install.jars.entities.ejbql" />
+    <antcall target="install.jar.tests.inheritance.cmt" />
+    <antcall target="install.jar.tests.messagedriven.contract" />
+    <antcall target="install.jar.tests.stateful.remove" />
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.override" />
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.cmt" />
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.slremote" />
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.sfremote" />
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.sllocal" />
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.sflocal" />
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.mdb" />
+    <antcall target="install.jars.entities.listeners" />
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.exception" />
+    <antcall target="install.jar.tests.messagedriven.interface" />
+    <antcall target="install.jar.tests.messagedrivencontext" />
+    <!--
+    <antcall target="install.jars.entities.entitytest00" />
+    <antcall target="install.jars.entities.entitytest02" />
+    <antcall target="install.jars.entities.entitytest03" />
+    <antcall target="install.jars.entities.entitytest04" />
+    -->
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.interceptor00" />
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.interceptor01" />
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.interceptor02" />
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.interceptor03" />
+    <antcall target="install.jars.entities.queries" />
+    <antcall target="install.jar.tests.timerservice" />
+    <!-- These jar are not supported yet.
+    <antcall target="install.jars.entities.entitytest01" />
+    <antcall target="install.jar.tests.ejb2view"/>
+    <antcall target="install.jar.tests.ejb2view.transaction"/>
+    <antcall target="install.jar.tests.xmldescriptor.ejb-jar.transactionattribute" />
+    -->
+  </target>
+
+  <!-- Code coverage -->
+  <taskdef resource="com/cenqua/ant/antlib.xml"
+           classpath="${tests.lib.dir}/cenquatasks.jar" />
+  <extendclasspath path="${tests.lib.dir}/clover.jar" />
+  <taskdef resource="clovertasks" classpath="${tests.lib.dir}/clover.jar" />
+
+  <!-- WebServices -->
+  <macrodef name="wsdl2java">
+    <attribute name="ws.srv.endpoint.interface" />
+    <attribute name="ws.src.dest.dir" />
+    <attribute name="ws.src.result.dir" />
+    <attribute name="wsdl.file" />
+    <attribute name="bindingfile" default="" />
+    <attribute name="dir" default="@{ws.src.dest.dir}" />
+    <attribute name="package" default="NOT_SPECIFIED" />
+    <sequential>
+      <mkdir dir="@{ws.src.dest.dir}" />
+      <condition property="package.arg.@{wsdl.file}" value="-p @{package}">
+        <not>
+          <equals arg1="@{package}" arg2="NOT_SPECIFIED" />
+        </not>
+      </condition>
+      <property name="package.arg.@{wsdl.file}" value="" />
+      <condition property="binding.arg" value="-b @{bindingfile}">
+        <not>
+          <equals arg1="@{bindingfile}" arg2="" />
+        </not>
+      </condition>
+      <property name="binding.arg" value="" />
+
+      <java failonerror="true"
+            classname="org.objectweb.celtix.tools.WSDLToJava"
+            fork="yes">
+        <classpath>
+          <path refid="base.classpath" />
+        </classpath>
+        <arg line="${package.arg.@{wsdl.file}}" />
+        <arg line="${binding.arg}" />
+        <arg value="-verbose" />
+        <arg value="-d" />
+        <arg value="@{ws.src.dest.dir}" />
+        <!--<arg value="-server" />-->
+        <!--<arg value="-impl" />-->
+        <arg value="@{wsdl.file}" />
+      </java>
+
+      <!-- Removes wrong wsdl location -->
+      <replaceregexp byline="true">
+        <regexp pattern="wsdlLocation = (.*,)" />
+        <substitution expression="" />
+        <fileset dir="@{ws.src.result.dir}">
+          <filename name="@{ws.srv.endpoint.interface}" />
+        </fileset>
+      </replaceregexp>
+
+      <!-- Removes generated service class-->
+      <delete>
+        <fileset dir="@{ws.src.result.dir}" includes="*Service.java" />
+      </delete>
+    </sequential>
+  </macrodef>
+
+  <target name="generate.ws.ejbref">
+    <wsdl2java wsdl.file="${tests.src.dir}/${tests.package}/common/ws/ejbref/ejbref.wsdl"
+               ws.src.dest.dir="${tests.src.dir}/"
+               ws.src.result.dir="${tests.src.dir}/${tests.package}/common/ws/ejbref/gen/"
+               ws.srv.endpoint.interface="ItfChecker.java" />
+  </target>
+
+</project>

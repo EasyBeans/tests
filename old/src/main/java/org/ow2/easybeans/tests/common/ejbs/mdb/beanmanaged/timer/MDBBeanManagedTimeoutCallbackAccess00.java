@@ -1,0 +1,84 @@
+/**
+ * EasyBeans
+ * Copyright (C) 2006 Bull S.A.S.
+ * Contact: easybeans@ow2.org
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+ * USA
+ *
+ * --------------------------------------------------------------------------
+ * $Id: MDBBeanManagedTimeoutCallbackAccess00.java 5369 2010-02-24 14:58:19Z benoitf $
+ * --------------------------------------------------------------------------
+ */
+package org.ow2.easybeans.tests.common.ejbs.mdb.beanmanaged.timer;
+
+import static org.ow2.easybeans.tests.common.resources.UserTransactionTester.checkInstance;
+
+import javax.ejb.ActivationConfigProperty;
+import javax.ejb.MessageDriven;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.jms.MessageListener;
+import javax.transaction.UserTransaction;
+
+import org.ow2.easybeans.tests.common.ejbs.base.timer.BaseTimeoutCallbackAccess;
+import org.ow2.easybeans.tests.common.jms.JMSManager;
+
+
+/**
+ * Performs timeout operations allowed by the specification.
+ * @author Eduardo Studzinski Estima de Castro
+ * @author Gisele Pinheiro Souza
+ *
+ */
+@MessageDriven(messageListenerInterface = MessageListener.class, activationConfig = {
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+    @ActivationConfigProperty(propertyName = "destination", propertyValue = JMSManager.DEFAULT_QUEUE),
+    @ActivationConfigProperty(propertyName = "messageSelector", propertyValue = "TYPE = 'org.ow2.easybeans.tests."
+        + "common.ejbs.mdb.beanmanaged.timer.MDBBeanManagedTimeoutCallbackAccess00'")})
+@TransactionManagement(TransactionManagementType.BEAN)
+public class MDBBeanManagedTimeoutCallbackAccess00 extends BaseTimeoutCallbackAccess{
+
+    /**
+     * Name that will be registered by the operation logger.
+     */
+    public static final String MESSAGE_TYPE = "org.ow2.easybeans.tests.common.ejbs.mdb.beanmanaged."
+        + "timer.MDBBeanManagedTimeoutCallbackAccess00";
+
+    /**
+     * Gets the bean name.
+     * @return name
+     */
+    @Override
+    public String getName() {
+        return MDBBeanManagedTimeoutCallbackAccess00.class.getName();
+    }
+
+    /**
+     * Tests the UserTransaction.
+     * @param utx instance
+     * @return true if the instance is working properly, otherwise false.
+     */
+    @Override
+    public boolean testUserTransaction(final UserTransaction utx) {
+        try{
+            checkInstance(utx);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+}

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - EasyBeans
+  - Copyright (C) 2006 Bull S.A.S.
+  - Contact: easybeans@ow2.org
+  -
+  - This library is free software; you can redistribute it and/or
+  - modify it under the terms of the GNU Lesser General Public
+  - License as published by the Free Software Foundation; either
+  - version 2.1 of the License, or any later version.
+  -
+  - This library is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  - Lesser General Public License for more details.
+  -
+  - You should have received a copy of the GNU Lesser General Public
+  - License along with this library; if not, write to the Free Software
+  - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+  - USA
+  -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - $Id: ejb-jar00.xml 5369 2010-02-24 14:58:19Z benoitf $
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<ejb-jar
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+  version="3.0">
+
+  <enterprise-beans>
+    <!--  Bean -->
+    <session>
+      <description>Field Injection Bean</description>
+      <display-name>SLSBEjbRefFieldInjection</display-name>
+      <ejb-name>SLSBEjbRefFieldInjection</ejb-name>
+      <ejb-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefFieldInjection</ejb-class>
+      <session-type>Stateless</session-type>
+      <ejb-ref>
+          <ejb-ref-name>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefFieldInjection/bean00</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>ejb/bean01</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefFieldInjection/bean02</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefFieldInjection/bean03</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefFieldInjection/bean04</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>ejb/bean05</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>ejb/bean06</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+    </session>
+    <!--  Bean -->
+    <session>
+      <description>Setter method injection bean</description>
+      <display-name>SLSBEjbRefMethodInjection</display-name>
+      <ejb-name>SLSBEjbRefMethodInjection</ejb-name>
+      <ejb-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefMethodInjection</ejb-class>
+      <session-type>Stateless</session-type>
+      <ejb-ref>
+          <ejb-ref-name>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefMethodInjection/bean00</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>ejb/bean01</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefMethodInjection/bean02</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefMethodInjection/bean03</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefMethodInjection/bean04</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>ejb/bean05</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>ejb/bean06</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+    </session>
+     <!--  Bean -->
+    <session>
+      <description>Bean with ejb references declared using the @EJB annotation</description>
+      <display-name>SLSBEjbRefDeclaration</display-name>
+      <ejb-name>SLSBEjbRefDeclaration</ejb-name>
+      <ejb-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefMethodInjection</ejb-class>
+      <session-type>Stateless</session-type>
+      <ejb-ref>
+          <ejb-ref-name>ejb/bean00</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+      </ejb-ref>
+      <ejb-ref>
+          <ejb-ref-name>ejb/bean03</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfEJBRef</remote>
+        <ejb-link>SLSBEjbRefMethodInjection</ejb-link>
+      </ejb-ref>
+    </session>
+    <!--  Bean -->
+    <session>
+      <description>This bean has an ejb reference injected using this deployment descriptor.</description>
+      <display-name>SLSBEjbRefXML</display-name>
+      <ejb-name>SLSBEjbRefXML</ejb-name>
+      <ejb-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefXML</ejb-class>
+      <session-type>Stateless</session-type>
+      <ejb-ref>
+          <ejb-ref-name>ejb/bean00</ejb-ref-name>
+        <remote>org.ow2.easybeans.tests.common.ejbs.base.ItfOneMethod01</remote>
+        <ejb-link>EJBInjectionBean</ejb-link>
+        <injection-target>
+            <injection-target-class>org.ow2.easybeans.tests.common.ejbs.stateless.containermanaged.ejbref.SLSBEjbRefXML</injection-target-class>
+            <injection-target-name>bean</injection-target-name>
+        </injection-target>
+      </ejb-ref>
+    </session>
+  </enterprise-beans>
+</ejb-jar>
