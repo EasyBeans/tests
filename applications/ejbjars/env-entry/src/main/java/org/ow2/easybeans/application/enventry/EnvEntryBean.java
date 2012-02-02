@@ -189,20 +189,11 @@ public class EnvEntryBean implements IEnvEntry {
     /**
      * Ensures that lookup in java:module and java:comp is the same.
      */
-    public void checkCompEqualsModule() throws NamingException {
+    public void checkCompNotEqualsModule() throws NamingException {
         Integer lookupModuleValue = (Integer) new InitialContext().lookup("java:module/env/entry-int");
         Integer lookupCompValue = (Integer) new InitialContext().lookup("java:comp/env/entry-int");
 
-        Assert.assertEquals(lookupModuleValue, lookupCompValue);
-    }
-
-    /**
-     * Ensures that lookup in java:app and java:module is not the same.
-     */
-    public void checkAppNotEqualsModule() throws NamingException {
-        Short lookupModuleValue = (Short) new InitialContext().lookup("java:module/env/entry-short");
-        Short lookupAppValue = (Short) new InitialContext().lookup("java:app/env/entry-short");
-        Assert.assertNotSame(lookupModuleValue, lookupAppValue);
+        Assert.assertNotSame(lookupModuleValue, lookupCompValue);
     }
 
 

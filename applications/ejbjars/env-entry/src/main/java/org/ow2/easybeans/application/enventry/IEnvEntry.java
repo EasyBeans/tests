@@ -36,8 +36,7 @@ import javax.naming.NamingException;
 public interface IEnvEntry {
 
 
-    void checkCompEqualsModule() throws NamingException;
-    void checkAppNotEqualsModule() throws NamingException;
+    void checkCompNotEqualsModule() throws NamingException;
 
     void checkInjectedFields();
 
