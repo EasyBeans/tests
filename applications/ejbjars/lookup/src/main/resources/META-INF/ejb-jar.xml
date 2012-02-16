@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - EasyBeans
+    - Copyright (C) 2012 Bull S.A.S.
+    - Contact: easybeans@ow2.org
+    -
+    - This library is free software; you can redistribute it and/or
+    - modify it under the terms of the GNU Lesser General Public
+    - License as published by the Free Software Foundation; either
+    - version 2.1 of the License, or any later version.
+    -
+    - This library is distributed in the hope that it will be useful,
+    - but WITHOUT ANY WARRANTY; without even the implied warranty of
+    - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    - Lesser General Public License for more details.
+    -
+    - You should have received a copy of the GNU Lesser General Public
+    - License along with this library; if not, write to the Free Software
+    - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+    - USA
+    -
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - $Id: ejb-jar.xml 5602 2010-10-01 15:49:31Z sauthieg $
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
+  version="3.1">
+
+  <enterprise-beans>
+
+    <!-- Singleton Session Bean -->
+    <session>
+      <description>Singleton Session Bean</description>
+      <display-name>XMLLookupBean</display-name>
+      <ejb-name>XMLLookupBean</ejb-name>
+      <mapped-name>XMLLookupBean</mapped-name>
+      <business-remote>org.ow2.easybeans.application.lookup.ILookup</business-remote>
+      <ejb-class>org.ow2.easybeans.application.lookup.XMLLookupBean</ejb-class>
+      <session-type>Singleton</session-type>
+
+
+      <ejb-ref>
+        <ejb-ref-name>entries/SimpleBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <remote>org.ow2.easybeans.application.lookup.ISimple</remote>
+        <ejb-link>SimpleBean1</ejb-link>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.lookup.XMLLookupBean</injection-target-class>
+          <injection-target-name>simpleBean1</injection-target-name>
+        </injection-target>
+      </ejb-ref>
+
+      <ejb-ref>
+        <ejb-ref-name>entries/SimpleBean2</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <remote>org.ow2.easybeans.application.lookup.ISimple</remote>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.lookup.XMLLookupBean</injection-target-class>
+          <injection-target-name>setSimpleBean</injection-target-name>
+        </injection-target>
+        <lookup-name>java:module/SimpleBean2</lookup-name>
+      </ejb-ref>
+
+      <ejb-ref>
+        <ejb-ref-name>entries/SimpleBean1OtherWay</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <remote>org.ow2.easybeans.application.lookup.ISimple</remote>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.lookup.XMLLookupBean</injection-target-class>
+          <injection-target-name>setSimpleBeanOtherWay</injection-target-name>
+        </injection-target>
+        <lookup-name>java:comp/env/entries/SimpleBean</lookup-name>
+      </ejb-ref>
+
+    </session>
+
+  </enterprise-beans>
+</ejb-jar>

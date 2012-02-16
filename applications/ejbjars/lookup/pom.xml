@@ -2,7 +2,7 @@
 <!--
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   - EasyBeans
-  - Copyright (C) 2011-2012 Bull S.A.S.
+  - Copyright (C) 2010-2012 Bull S.A.S.
   - Contact: easybeans@ow2.org
   -
   - This library is free software; you can redistribute it and/or
@@ -23,24 +23,46 @@
   - $Id: pom.xml 6148 2012-01-25 14:51:49Z benoitf $
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.ow2.easybeans.tests</groupId>
-    <artifactId>easybeans-tests-applications</artifactId>
+    <artifactId>easybeans-tests-applications-ejbjars</artifactId>
     <version>2.0.0-a1-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>easybeans-tests-applications-ejbjars</artifactId>
-  <packaging>pom</packaging>
-  <name>EasyBeans: Tests :: Applications :: EJB JARs</name>
-  <description>EJBs for Integration tests of EasyBeans</description>
+  <artifactId>easybeans-tests-applications-ejbjars-lookup</artifactId>
+  <packaging>ejb</packaging>
+  <name>EasyBeans: Tests :: Applications :: EJB JARs :: Lookup</name>
 
-  <modules>
-    <!-- Modules -->
-    <module>env-entry</module>
-    <module>lookup</module>
-  </modules>
+  <dependencies>
+    <dependency>
+      <groupId>org.ow2.spec.ee</groupId>
+      <artifactId>ow2-annotation-1.1-spec</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ow2.spec.ee</groupId>
+      <artifactId>ow2-ejb-3.1-spec</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ejb-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+          <ejbVersion>3.0</ejbVersion>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

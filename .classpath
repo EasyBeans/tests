@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" output="applications/ejbjars/env-entry/target/classes" path="applications/ejbjars/env-entry/src/main/java"/>
+	<classpathentry kind="src" path="applications/ejbjars/lookup/src/main/java"/>
+	<classpathentry kind="src" path="applications/ejbjars/lookup/src/main/resources"/>
 	<classpathentry kind="src" path="osgi/simple/src/main/java"/>
 	<classpathentry excluding="**" kind="src" output="applications/ejbjars/env-entry/target/classes" path="applications/ejbjars/env-entry/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="applications/ejbjars/javanaming/target/classes" path="applications/ejbjars/javanaming/src/main/resources"/>
