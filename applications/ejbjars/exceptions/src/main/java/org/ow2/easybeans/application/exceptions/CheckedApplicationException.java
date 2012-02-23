@@ -25,18 +25,16 @@
 
 package org.ow2.easybeans.application.exceptions;
 
-public interface IException {
+/**
+ * An application exception
+ * @author Florent Benoit
+ *
+ */
+public class CheckedApplicationException extends Exception {
 
-    void methodA();
-
-    void methodB();
-
-    void methodC();
-
-    void methodD();
-    
-    void applicationException() throws CheckedApplicationException;
-    
-    void applicationRollbackException() throws CheckedRollbackApplicationException;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -92235902261239709L;
 
 }

@@ -25,18 +25,18 @@
 
 package org.ow2.easybeans.application.exceptions;
 
-public interface IException {
+import javax.ejb.ApplicationException;
 
-    void methodA();
+/**
+ * An application exception with rollback.
+ * @author Florent Benoit
+ */
+@ApplicationException(rollback=true)
+public class CheckedRollbackApplicationException extends Exception {
 
-    void methodB();
-
-    void methodC();
-
-    void methodD();
-    
-    void applicationException() throws CheckedApplicationException;
-    
-    void applicationRollbackException() throws CheckedRollbackApplicationException;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -92235902261239709L;
 
 }

@@ -25,18 +25,17 @@
 
 package org.ow2.easybeans.application.exceptions;
 
-public interface IException {
+import javax.ejb.Remote;
 
-    void methodA();
+/**
+ * Check transaction status. 
+ * @author Florent Benoit
+ */
+@Remote
+public interface ICheckerException {
 
-    void methodB();
-
-    void methodC();
-
-    void methodD();
+    void checkDefaultApplicationException();
     
-    void applicationException() throws CheckedApplicationException;
-    
-    void applicationRollbackException() throws CheckedRollbackApplicationException;
+    void checkRollbackApplicationException();
 
 }

@@ -53,6 +53,14 @@ public class AnnotationExceptionsBean implements IException {
     public void methodD() {
         throw new AnnotationRuntimeExceptionD();
     }
+    
+    public void applicationException() throws CheckedApplicationException {
+        throw new CheckedApplicationException();
+    }
+    
+    public void applicationRollbackException() throws CheckedRollbackApplicationException {
+        throw new CheckedRollbackApplicationException();
+    }
 
     
 }
