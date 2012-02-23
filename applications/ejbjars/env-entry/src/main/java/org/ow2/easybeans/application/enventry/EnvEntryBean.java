@@ -132,6 +132,10 @@ public class EnvEntryBean implements IEnvEntry {
     private MyEnum entryEnum;
 
 
+    @Resource(lookup="java:global/env/myValue")
+    private Integer myGlobalInteger;
+    
+    
     private MyEnum entryEnumSetter;
 
 
@@ -184,6 +188,8 @@ public class EnvEntryBean implements IEnvEntry {
 
         Assert.assertEquals(this.entryEnum, MyEnum.FLORENT);
         Assert.assertEquals(this.entryEnumSetter, MyEnum.BENOIT);
+        
+        Assert.assertEquals(this.myGlobalInteger, Integer.valueOf(2512));
     }
 
     /**

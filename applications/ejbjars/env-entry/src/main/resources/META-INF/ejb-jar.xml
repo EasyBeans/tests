@@ -115,6 +115,12 @@
       </env-entry>
 
       <env-entry>
+        <env-entry-name>java:global/env/myValue</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>2512</env-entry-value>
+      </env-entry>
+
+      <env-entry>
         <env-entry-name>java:module/env/entry-long</env-entry-name>
         <env-entry-type>java.lang.Long</env-entry-type>
         <env-entry-value>10</env-entry-value>
