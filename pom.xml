@@ -24,7 +24,8 @@
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.ow2.easybeans</groupId>
     <artifactId>parent</artifactId>
@@ -37,14 +38,14 @@
   <packaging>pom</packaging>
   <name>EasyBeans: Tests</name>
   <description>Tests</description>
-  
-  
+
+
   <properties>
     <ow2-spec.version>1.0.10</ow2-spec.version>
     <testng.version>5.14</testng.version>
     <junit4osgi.version>1.0.0</junit4osgi.version>
   </properties>
-  
+
   <!-- Prefered dependencies version -->
   <dependencyManagement>
 
@@ -65,20 +66,31 @@
         <artifactId>ow2-annotation-1.1-spec</artifactId>
         <version>${ow2-spec.version}</version>
       </dependency>
-      
+      <dependency>
+        <groupId>org.ow2.spec.ee</groupId>
+        <artifactId>ow2-interceptor-1.1-spec</artifactId>
+        <version>${ow2-spec.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ow2.spec.ee</groupId>
+        <artifactId>ow2-jta-1.1-spec</artifactId>
+        <version>${ow2-spec.version}</version>
+      </dependency>
+
+
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
         <version>${testng.version}</version>
       </dependency>
-      
-      </dependencies>
-    </dependencyManagement>  
-    
-      
+
+    </dependencies>
+  </dependencyManagement>
+
+
   <modules>
     <module>applications</module>
     <module>osgi</module>
-  
+
   </modules>
 </project>

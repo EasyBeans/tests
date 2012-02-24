@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - EasyBeans
+    - Copyright (C) 2012 Bull S.A.S.
+    - Contact: easybeans@ow2.org
+    -
+    - This library is free software; you can redistribute it and/or
+    - modify it under the terms of the GNU Lesser General Public
+    - License as published by the Free Software Foundation; either
+    - version 2.1 of the License, or any later version.
+    -
+    - This library is distributed in the hope that it will be useful,
+    - but WITHOUT ANY WARRANTY; without even the implied warranty of
+    - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    - Lesser General Public License for more details.
+    -
+    - You should have received a copy of the GNU Lesser General Public
+    - License along with this library; if not, write to the Free Software
+    - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+    - USA
+    -
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - $Id: ejb-jar.xml 5602 2010-10-01 15:49:31Z sauthieg $
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
+  version="3.1">
+
+  <enterprise-beans>
+
+    <!-- Singleton Session Bean -->
+    <session>
+      <description>Stateless Session Bean</description>
+      <display-name>XMLContextBean</display-name>
+      <ejb-name>XMLContextBean</ejb-name>
+      <mapped-name>XMLContextBean</mapped-name>
+      <business-remote>org.ow2.easybeans.application.context.IContext</business-remote>
+      <ejb-class>org.ow2.easybeans.application.context.XMLContextBean</ejb-class>
+      <session-type>Singleton</session-type>
+
+      <resource-env-ref>
+        <resource-env-ref-name>injectedEJBContext</resource-env-ref-name>
+
+        <!-- Inject in bean's class -->
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.context.XMLContextBean</injection-target-class>
+          <injection-target-name>injectedEJBContext</injection-target-name>
+        </injection-target>
+
+        <!-- Inject in super class bean -->
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.context.CommonBean</injection-target-class>
+          <injection-target-name>injectedEJBContext</injection-target-name>
+        </injection-target>
+
+        <!-- Inject in interceptor -->
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.context.MyInterceptor</injection-target-class>
+          <injection-target-name>injectedEJBContext</injection-target-name>
+        </injection-target>
+      </resource-env-ref>
+    </session>
+  </enterprise-beans>
+
+  <!-- Define interceptors -->
+  <interceptors>
+    <interceptor>
+      <interceptor-class>org.ow2.easybeans.application.context.MyInterceptor</interceptor-class>
+    </interceptor>
+  </interceptors>
+
+  <!-- Apply interceptors on all Beans -->
+  <assembly-descriptor>
+    <interceptor-binding>
+      <ejb-name>*</ejb-name>
+      <interceptor-class>org.ow2.easybeans.application.context.MyInterceptor</interceptor-class>
+    </interceptor-binding>
+  </assembly-descriptor>
+
+</ejb-jar>
