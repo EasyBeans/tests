@@ -25,22 +25,34 @@
 
 package org.ow2.easybeans.application.context;
 
+import javax.ejb.Remote;
+
 /**
- * Interface of Context Beans.
+ * Interface for testing business methods of Session Context.
  * @author Florent Benoit
  */
-public interface IContext {
+@Remote
+public interface IBusinessContext {
 
-    void testExternalInterceptorInjection();
-    void testSuperInjection();
-    void testInjection();
-    void testPostConstruct();
-    void testSuperPostConstruct();
-    void testAroundInvoke();
-    void testSuperAroundInvoke();
+    /**
+     * Check invoked business interface is the remote interface
+     */
+    void testRemoteBusinessInterface();
+
+    /**
+     * Check invoked business interface is the no interface view
+     */
+    void testNoInterfaceBusinessInterface();
     
-    Class<?> getInvokedBusinessInterface();
-    <T> T getBusinessObject(Class<T> businessInterface);
-    
+
+    /**
+     * Check proxy for a given class interface.
+     */
+    void testRemoteBusinessObject();
+
+    /**
+     * Check proxy for a given class interface.
+     */
+    void testNoInterfaceBusinessObject();
     
 }

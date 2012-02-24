@@ -74,7 +74,7 @@
   <!-- Apply interceptors on all Beans -->
   <assembly-descriptor>
     <interceptor-binding>
-      <ejb-name>*</ejb-name>
+      <ejb-name>XMLContextBean</ejb-name>
       <interceptor-class>org.ow2.easybeans.application.context.MyInterceptor</interceptor-class>
     </interceptor-binding>
   </assembly-descriptor>

@@ -125,7 +125,23 @@ public class XMLContextBean extends CommonBean {
         aroundInvokeCalled = true;
         return invocationContext.proceed();
     }
+
+
+    public Class<?> getInvokedBusinessInterface() {
+        if (injectedMethodSessionContext == null) {
+            throw new IllegalStateException("Cannot test with a null session context");
+        }
+        
+        return injectedMethodSessionContext.getInvokedBusinessInterface();
+    }
     
+    public <T> T getBusinessObject(Class<T> businessInterface) {
+        if (injectedMethodSessionContext == null) {
+            throw new IllegalStateException("Cannot test with a null session context");
+        }
+        
+        return injectedMethodSessionContext.getBusinessObject(businessInterface);
+    }
     
 
 }
