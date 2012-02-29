@@ -193,7 +193,7 @@ public class EnvEntryBean implements IEnvEntry {
     }
 
     /**
-     * Ensures that lookup in java:module and java:comp is the same.
+     * Ensures that lookup in java:module and java:comp is not the same.
      */
     public void checkCompNotEqualsModule() throws NamingException {
         Integer lookupModuleValue = (Integer) new InitialContext().lookup("java:module/env/entry-int");

@@ -33,7 +33,7 @@
 
     <session>
       <ejb-name>EnvEntryBean</ejb-name>
- 
+
       <env-entry>
         <env-entry-name>java:module/env/entry-boolean</env-entry-name>
         <env-entry-type>java.lang.Boolean</env-entry-type>
@@ -45,7 +45,7 @@
         <env-entry-type>java.lang.Boolean</env-entry-type>
         <env-entry-value>True</env-entry-value>
       </env-entry>
- 
+
       <env-entry>
         <env-entry-name>java:module/env/entry-byte</env-entry-name>
         <env-entry-type>java.lang.Byte</env-entry-type>
@@ -101,12 +101,12 @@
         <env-entry-type>java.lang.Integer</env-entry-type>
         <env-entry-value>2503</env-entry-value>
       </env-entry>
-      
+
       <env-entry>
         <env-entry-name>java:comp/env/entry-int</env-entry-name>
         <env-entry-type>java.lang.Integer</env-entry-type>
         <env-entry-value>2504</env-entry-value>
-      </env-entry>      
+      </env-entry>
 
       <env-entry>
         <env-entry-name>java:app/env/entry-integer</env-entry-name>
@@ -182,6 +182,310 @@
 
     </session>
 
+    <session>
+      <ejb-name>NoTypeEnvEntryBean</ejb-name>
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-boolean</env-entry-name>
+        <env-entry-value>True</env-entry-value>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>entryBoolean</injection-target-name>
+        </injection-target>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>setEntryBooleanSetterMethod</injection-target-name>
+        </injection-target>
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-byte</env-entry-name>
+        <env-entry-value>1</env-entry-value>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>entryByte</injection-target-name>
+        </injection-target>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>setEntryByteSetterMethod</injection-target-name>
+        </injection-target>
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-character</env-entry-name>
+        <env-entry-value>f</env-entry-value>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>entryCharacter</injection-target-name>
+        </injection-target>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>setEntryCharacterSetterMethod</injection-target-name>
+        </injection-target>
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-string</env-entry-name>
+        <env-entry-value>Florent</env-entry-value>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>entryString</injection-target-name>
+        </injection-target>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>setEntryStringSetterMethod</injection-target-name>
+        </injection-target>        
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-short</env-entry-name>
+        <env-entry-value>25</env-entry-value>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>entryShort</injection-target-name>
+        </injection-target>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>setEntryShortSetterMethod</injection-target-name>
+        </injection-target>        
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-int</env-entry-name>
+        <env-entry-value>2503</env-entry-value>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>entryInteger</injection-target-name>
+        </injection-target>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>setEntryIntegerSetterMethod</injection-target-name>
+        </injection-target>        
+      </env-entry>
+      <env-entry>
+        <env-entry-name>java:module/env/notype/entry-int</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>10</env-entry-value>
+      </env-entry>      
+
+
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-long</env-entry-name>
+        <env-entry-value>10</env-entry-value>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>entryLong</injection-target-name>
+        </injection-target>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>setEntryLongSetterMethod</injection-target-name>
+        </injection-target>        
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-float</env-entry-name>
+        <env-entry-value>25.03</env-entry-value>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>entryFloat</injection-target-name>
+        </injection-target>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>setEntryFloatSetterMethod</injection-target-name>
+        </injection-target>        
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-double</env-entry-name>
+        <env-entry-value>2503</env-entry-value>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>entryDouble</injection-target-name>
+        </injection-target>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>setEntryDoubleSetterMethod</injection-target-name>
+        </injection-target>        
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-class</env-entry-name>
+        <env-entry-value>org.ow2.easybeans.application.enventry.DummyEntryClass</env-entry-value>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>entryClass</injection-target-name>
+        </injection-target>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>setEntryClassSetterMethod</injection-target-name>
+        </injection-target>        
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-enum</env-entry-name>
+        <env-entry-value>FLORENT</env-entry-value>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>entryEnum</injection-target-name>
+        </injection-target>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>setEntryEnumSetterMethod</injection-target-name>
+        </injection-target>        
+      </env-entry>
+
+    </session>
+
+    <session>
+      <ejb-name>AnnotationResourceEnvEntryBean</ejb-name>
+      <env-entry>
+        <env-entry-name>entry-boolean</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+        <env-entry-value>True</env-entry-value>
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>resource/entry-byte</env-entry-name>
+        <env-entry-type>java.lang.Byte</env-entry-type>
+        <env-entry-value>1</env-entry-value>
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:comp/env/resource/entry-character</env-entry-name>
+        <env-entry-type>java.lang.Character</env-entry-type>
+        <env-entry-value>f</env-entry-value>
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:comp/env/resource/entry-string</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>Florent</env-entry-value>      
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:comp/env/resource/entry-short</env-entry-name>
+        <env-entry-type>java.lang.Short</env-entry-type>
+        <env-entry-value>25</env-entry-value>    
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/resource/entry-int</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>2503</env-entry-value>     
+      </env-entry>
+      
+      <env-entry>
+        <env-entry-name>java:module/env/resource/entry-int</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>10</env-entry-value>
+      </env-entry>      
+
+      <env-entry>
+        <env-entry-name>java:comp/env/resource/entry-long</env-entry-name>
+        <env-entry-type>java.lang.Long</env-entry-type>
+        <env-entry-value>10</env-entry-value>   
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/resource/entry-float</env-entry-name>
+        <env-entry-type>java.lang.Float</env-entry-type>
+        <env-entry-value>25.03</env-entry-value>     
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/resource/entry-double</env-entry-name>
+        <env-entry-type>java.lang.Double</env-entry-type>
+        <env-entry-value>2503</env-entry-value>   
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/resource/entry-class</env-entry-name>
+        <env-entry-type>java.lang.Class</env-entry-type>
+        <env-entry-value>org.ow2.easybeans.application.enventry.DummyEntryClass</env-entry-value> 
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/resource/entry-enum</env-entry-name>
+        <env-entry-type>org.ow2.easybeans.application.enventry.MyEnum</env-entry-type>
+        <env-entry-value>FLORENT</env-entry-value>
+      </env-entry>
+
+    </session>
+
+    <session>
+      <ejb-name>DefaultEnvEntryBean</ejb-name>
+      <env-entry>
+        <env-entry-name>default/entry-boolean</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>default/entry-byte</env-entry-name>
+        <env-entry-type>java.lang.Byte</env-entry-type>
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>default/entry-character</env-entry-name>
+        <env-entry-type>java.lang.Character</env-entry-type>
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:comp/env/default/entry-string</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+      </env-entry>
+
+
+      <env-entry>
+        <env-entry-name>java:comp/env/default/entry-short</env-entry-name>
+        <env-entry-type>java.lang.Short</env-entry-type>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/default/entry-int</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+      </env-entry>
+      
+      <env-entry>
+        <env-entry-name>java:module/env/default/entry-int</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+      </env-entry>      
+
+      <env-entry>
+        <env-entry-name>java:comp/env/default/entry-long</env-entry-name>
+        <env-entry-type>java.lang.Long</env-entry-type>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/default/entry-float</env-entry-name>
+        <env-entry-type>java.lang.Float</env-entry-type>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/default/entry-double</env-entry-name>
+        <env-entry-type>java.lang.Double</env-entry-type>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/default/entry-class</env-entry-name>
+        <env-entry-type>java.lang.Class</env-entry-type>
+      </env-entry>
+
+      <env-entry>
+        <env-entry-name>java:comp/env/default/entry-enum</env-entry-name>
+        <env-entry-type>org.ow2.easybeans.application.enventry.MyEnum</env-entry-type>
+      </env-entry>
+
+    </session>
 
   </enterprise-beans>
 
