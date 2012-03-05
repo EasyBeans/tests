@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - EasyBeans
+    - Copyright (C) 2012 Bull S.A.S.
+    - Contact: easybeans@ow2.org
+    -
+    - This library is free software; you can redistribute it and/or
+    - modify it under the terms of the GNU Lesser General Public
+    - License as published by the Free Software Foundation; either
+    - version 2.1 of the License, or any later version.
+    -
+    - This library is distributed in the hope that it will be useful,
+    - but WITHOUT ANY WARRANTY; without even the implied warranty of
+    - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    - Lesser General Public License for more details.
+    -
+    - You should have received a copy of the GNU Lesser General Public
+    - License along with this library; if not, write to the Free Software
+    - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+    - USA
+    -
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - $Id: ejb-jar.xml 5602 2010-10-01 15:49:31Z sauthieg $
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
+  version="3.1">
+
+  <enterprise-beans>
+
+    <!-- Singleton Session Bean -->
+    <session>
+      <ejb-name>XMLInterceptorBean</ejb-name>
+      <mapped-name>XMLInterceptorBean</mapped-name>
+      <business-remote>org.ow2.easybeans.application.aroundinvoke.IXMLAroundInvoke</business-remote>
+      <ejb-class>org.ow2.easybeans.application.aroundinvoke.XMLInterceptorBean</ejb-class>
+      <session-type>Singleton</session-type>
+    </session>
+  </enterprise-beans>
+
+  <!-- Define interceptors -->
+  <interceptors>
+    <interceptor>
+      <interceptor-class>org.ow2.easybeans.application.aroundinvoke.MyBusinessInterceptor</interceptor-class>
+    </interceptor>
+    <interceptor>
+      <interceptor-class>org.ow2.easybeans.application.aroundinvoke.MyOtherBusinessInterceptor</interceptor-class>
+    </interceptor>
+  </interceptors>
+
+
+  <!-- Apply interceptors on all Beans -->
+  <assembly-descriptor>
+    <interceptor-binding>
+      <ejb-name>*</ejb-name>
+      <interceptor-class>org.ow2.easybeans.application.aroundinvoke.MyOtherBusinessInterceptor</interceptor-class>
+    </interceptor-binding>
+
+
+    <!-- Exclude default interceptors on the XML Bean  -->
+    <interceptor-binding>
+      <ejb-name>XMLInterceptorBean</ejb-name>
+      <exclude-default-interceptors>true</exclude-default-interceptors>
+    </interceptor-binding>
+
+    <!-- And redefine it on the XML Bean -->
+    <interceptor-binding>
+      <ejb-name>XMLInterceptorBean</ejb-name>
+      <interceptor-order>
+        <interceptor-class>org.ow2.easybeans.application.aroundinvoke.MyOtherBusinessInterceptor</interceptor-class>
+      </interceptor-order>
+      <method>
+        <method-name>dummyCallOverrided</method-name>
+      </method>
+    </interceptor-binding>
+
+  </assembly-descriptor>
+  
+</ejb-jar>

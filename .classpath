@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" output="applications/ejbjars/context/target/classes" path="applications/ejbjars/context/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="applications/ejbjars/context/target/classes" path="applications/ejbjars/context/src/main/resources"/>
 	<classpathentry kind="src" output="applications/ejbjars/env-entry/target/classes" path="applications/ejbjars/env-entry/src/main/java"/>
-	<classpathentry kind="src" path="applications/ejbjars/context/src/main/resources"/>
-	<classpathentry kind="src" path="applications/ejbjars/context/src/main/java"/>
-	<classpathentry kind="src" path="applications/ejbjars/exceptions/src/main/java"/>
-	<classpathentry kind="src" path="applications/ejbjars/lookup/src/main/java"/>
-	<classpathentry kind="src" path="applications/ejbjars/lookup/src/main/resources"/>
-	<classpathentry kind="src" path="osgi/simple/src/main/java"/>
 	<classpathentry excluding="**" kind="src" output="applications/ejbjars/env-entry/target/classes" path="applications/ejbjars/env-entry/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="applications/ejbjars/javanaming/target/classes" path="applications/ejbjars/javanaming/src/main/resources"/>
+	<classpathentry kind="src" output="applications/ejbjars/exceptions/target/classes" path="applications/ejbjars/exceptions/src/main/java"/>
+	<classpathentry kind="src" output="applications/ejbjars/aroundinvoke/target/classes" path="applications/ejbjars/aroundinvoke/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="applications/ejbjars/aroundinvoke/target/classes" path="applications/ejbjars/aroundinvoke/src/main/resources"/>
+	<classpathentry kind="src" output="applications/ejbjars/lifecycle/target/classes" path="applications/ejbjars/lifecycle/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="applications/ejbjars/lifecycle/target/classes" path="applications/ejbjars/lifecycle/src/main/resources"/>
+	<classpathentry kind="src" output="applications/ejbjars/lookup/target/classes" path="applications/ejbjars/lookup/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="applications/ejbjars/lookup/target/classes" path="applications/ejbjars/lookup/src/main/resources"/>
+	<classpathentry kind="src" output="osgi/simple/target/classes" path="osgi/simple/src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
