@@ -75,6 +75,9 @@ public class NoTypeEnvEntryBean implements IEnvEntry {
 
     private float entryFloat;
     private Float entryFloatSetter;
+    
+    // Injected by using a lookup-name env-entry
+    private Float envEntryWithLookupName;
 
     private double entryDouble;
     private Double entryDoubleSetter;
@@ -85,6 +88,9 @@ public class NoTypeEnvEntryBean implements IEnvEntry {
     private MyEnum entryEnum;
     private MyEnum entryEnumSetter;
 
+    
+    
+    
     public void checkInjectedFields() {
         Assert.assertTrue(this.entryBoolean);
         Assert.assertTrue(this.entryBooleanSetter);
@@ -119,6 +125,8 @@ public class NoTypeEnvEntryBean implements IEnvEntry {
         Assert.assertEquals(this.entryClass, DummyEntryClass.class);
         Assert.assertEquals(this.entryClassSetter, DummyEntryClass.class);
 
+        // Check lookup-name on env-entries
+        Assert.assertEquals(envEntryWithLookupName, entryFloat);
 
     }
 

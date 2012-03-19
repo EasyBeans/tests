@@ -337,6 +337,17 @@
           <injection-target-name>setEntryEnumSetterMethod</injection-target-name>
         </injection-target>        
       </env-entry>
+      
+      
+      <!-- Check lookup-name element on env-entries -->
+      <env-entry>
+        <env-entry-name>java:comp/env/notype/entry-float-with-lookupname</env-entry-name>
+        <injection-target>
+          <injection-target-class>org.ow2.easybeans.application.enventry.NoTypeEnvEntryBean</injection-target-class>
+          <injection-target-name>envEntryWithLookupName</injection-target-name>
+        </injection-target>
+        <lookup-name>java:comp/env/notype/entry-float</lookup-name>        
+      </env-entry>
 
     </session>
 
