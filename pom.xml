@@ -46,6 +46,12 @@
     <junit4osgi.version>1.0.0</junit4osgi.version>
   </properties>
 
+  <scm>
+    <connection>scm:git:git://gitorious.ow2.org/ow2-easybeans/tests.git</connection>
+    <url>http://gitorious.ow2.org/ow2-easybeans/tests</url>
+    <developerConnection>scm:git:git@gitorious.ow2.org:ow2-easybeans/tests.git</developerConnection>
+  </scm>
+
   <!-- Prefered dependencies version -->
   <dependencyManagement>
 
