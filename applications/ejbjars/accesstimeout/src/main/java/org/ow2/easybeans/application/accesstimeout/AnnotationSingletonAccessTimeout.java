@@ -29,12 +29,12 @@ import java.util.concurrent.TimeUnit;
 
 import javax.ejb.AccessTimeout;
 import javax.ejb.Remote;
-import javax.ejb.Stateful;
+import javax.ejb.Singleton;
 
-@Stateful(mappedName="AnnotationStatefulAccessTimeout")
+@Singleton(mappedName="AnnotationSingletonAccessTimeout")
 @AccessTimeout(unit=TimeUnit.SECONDS, value = 10)
 @Remote(IAccessTimeout.class)
-public class AnnotationStatefulAccessTimeout extends AbsAnnotationAccessTimeout implements IAccessTimeout {
+public class AnnotationSingletonAccessTimeout extends AbsAnnotationAccessTimeout implements IAccessTimeout {
 
-
+    
 }

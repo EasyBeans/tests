@@ -25,31 +25,51 @@
 
 package org.ow2.easybeans.application.accesstimeout;
 
+import java.util.concurrent.TimeUnit;
+
+import javax.ejb.AccessTimeout;
 
 /**
- * Interface for testing Access Timeout
+ * Abstract class.
  * @author Florent Benoit
  */
-public interface IStatefulAccessTimeout {
+public abstract class AbsAnnotationAccessTimeout implements IAccessTimeout {
 
-    /**
-     * Processing time.
-     */
-    static final long PROCESSING_TIME = 2000L;
-    
     /**
      * Use of the default access timeout (on the bean class)
      */
-    String defaultTimeout(String value);
+    public String defaultTimeout(String value) {
+        // Wait
+        try {
+            Thread.sleep(PROCESSING_TIME);
+        } catch (InterruptedException e) {
+        }
+        return value;
+    }
 
     /**
      * Milliseconds timeout specified on the method.
      */
-    String millisecondsTimeout(String value);
-
+    @AccessTimeout(unit=TimeUnit.MILLISECONDS, value = 100)
+    public String millisecondsTimeout(String value) {
+        // Wait
+        try {
+            Thread.sleep(PROCESSING_TIME);
+        } catch (InterruptedException e) {
+        }
+        return value;
+    }
+    
     /**
      * Unable to serialize calls on this bean.
      */
-    String noTimeout(String value);
-
+    @AccessTimeout(unit=TimeUnit.SECONDS, value = 0)
+    public String noTimeout(String value) {
+        // Wait
+        try {
+            Thread.sleep(PROCESSING_TIME);
+        } catch (InterruptedException e) {
+        }
+        return value;
+    }
 }
