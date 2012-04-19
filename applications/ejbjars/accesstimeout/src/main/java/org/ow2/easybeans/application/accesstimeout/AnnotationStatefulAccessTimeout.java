@@ -32,7 +32,7 @@ import javax.ejb.Remote;
 import javax.ejb.Stateful;
 
 @Stateful(mappedName="AnnotationStatefulAccessTimeout")
-@AccessTimeout(unit=TimeUnit.SECONDS, value = 10)
+@AccessTimeout(unit=TimeUnit.SECONDS, value = 5)
 @Remote(IAccessTimeout.class)
 public class AnnotationStatefulAccessTimeout extends AbsAnnotationAccessTimeout implements IAccessTimeout {
 

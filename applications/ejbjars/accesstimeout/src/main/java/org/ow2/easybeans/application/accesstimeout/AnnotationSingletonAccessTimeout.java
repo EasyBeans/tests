@@ -32,7 +32,7 @@ import javax.ejb.Remote;
 import javax.ejb.Singleton;
 
 @Singleton(mappedName="AnnotationSingletonAccessTimeout")
-@AccessTimeout(unit=TimeUnit.SECONDS, value = 10)
+@AccessTimeout(unit=TimeUnit.SECONDS, value = 5)
 @Remote(IAccessTimeout.class)
 public class AnnotationSingletonAccessTimeout extends AbsAnnotationAccessTimeout implements IAccessTimeout {
 
