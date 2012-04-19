@@ -25,16 +25,10 @@
 
 package org.ow2.easybeans.application.accesstimeout;
 
-import java.util.concurrent.TimeUnit;
-
-import javax.ejb.AccessTimeout;
-import javax.ejb.Remote;
 import javax.ejb.Singleton;
 
-@Singleton(mappedName="AnnotationSingletonAccessTimeout")
-@AccessTimeout(unit=TimeUnit.SECONDS, value = 1)
-@Remote(IAccessTimeout.class)
-public class AnnotationSingletonAccessTimeout extends AbsAnnotationAccessTimeout implements IAccessTimeout {
+@Singleton(mappedName="AnnotationSingletonAccessTimeout2")
+public class AnnotationSingletonAccessTimeout2 extends AnnotationSingletonAccessTimeout implements IAccessTimeout {
 
     
 }

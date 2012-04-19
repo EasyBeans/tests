@@ -48,13 +48,13 @@ public abstract class AbsAnnotationAccessTimeout implements IAccessTimeout {
     }
 
     /**
-     * Milliseconds timeout specified on the method.
+     * Long method and then timeout should occur
      */
-    @AccessTimeout(unit=TimeUnit.MILLISECONDS, value = 100)
-    public String millisecondsTimeout(String value) {
+    @AccessTimeout(unit=TimeUnit.SECONDS, value = 1)
+    public String longMethod(String value) {
         // Wait
         try {
-            Thread.sleep(PROCESSING_TIME);
+            Thread.sleep(PROCESSING_TIME * 3);
         } catch (InterruptedException e) {
         }
         return value;
@@ -67,7 +67,7 @@ public abstract class AbsAnnotationAccessTimeout implements IAccessTimeout {
     public String noTimeout(String value) {
         // Wait
         try {
-            Thread.sleep(PROCESSING_TIME);
+            Thread.sleep(PROCESSING_TIME / 2 );
         } catch (InterruptedException e) {
         }
         return value;

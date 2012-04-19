@@ -35,7 +35,7 @@ public interface IAccessTimeout {
     /**
      * Processing time.
      */
-    static final long PROCESSING_TIME = 2000L;
+    static final long PROCESSING_TIME = 500L;
     
     /**
      * Use of the default access timeout (on the bean class)
@@ -43,9 +43,9 @@ public interface IAccessTimeout {
     String defaultTimeout(String value);
 
     /**
-     * Milliseconds timeout specified on the method.
+     * Long method and then timeout should occur
      */
-    String millisecondsTimeout(String value);
+    String longMethod(String value);
 
     /**
      * Unable to serialize calls on this bean.
