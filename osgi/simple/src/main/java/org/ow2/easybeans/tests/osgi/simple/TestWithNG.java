@@ -29,6 +29,8 @@ import javax.inject.Inject;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.ow2.easybeans.tests.osgi.dummyejb.ITester;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -47,10 +49,33 @@ public class TestWithNG {
     @Test
     public void testSimpleAccess() {
         Bundle[] bundles = bundleContext.getBundles();
-        
+
         Assert.assertNotNull(bundles);
-        
+
         // At least 5 bundles
         Assert.assertTrue(bundles.length > 5);
     }
+    
+    @Test
+    public void testEJBExposedAsOSGiService() throws InterruptedException {
+        
+        int i = 0;
+        ServiceReference<ITester> serviceReference = null;
+        while (serviceReference == null && i < 100) {
+            serviceReference = bundleContext.getServiceReference(ITester.class);
+            System.out.println("waiting...");
+            Thread.sleep(200L);
+            i++;
+        }
+        
+        Assert.assertNotNull(serviceReference);
+        
+        ITester tester = bundleContext.getService(serviceReference);
+        Assert.assertNotNull(tester);
+
+        Assert.assertEquals(tester.calc(1, 2), 3);
+        
+        
     }
+    
+}

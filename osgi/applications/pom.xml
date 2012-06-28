@@ -26,20 +26,18 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <groupId>org.ow2.easybeans.osgi</groupId>
-    <artifactId>easybeans-osgi-itests</artifactId>
-    <version>1.2.5-SNAPSHOT</version>
+    <groupId>org.ow2.easybeans.tests</groupId>
+    <artifactId>easybeans-tests-osgi</artifactId>
+    <version>2.0.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.ow2.easybeans.osgi</groupId>
-  <artifactId>easybeans-osgi-itests-applications</artifactId>
+  <artifactId>easybeans-tests-osgi-applications</artifactId>
   <packaging>pom</packaging>
-  <name>EasyBeans/OSGi :: Integration Tests :: Applications</name>
+  <name>EasyBeans: Tests :: OSGi :: Applications</name>
   <description>Tests of the OSGi Bundles</description>
 
   <modules>
-    <module>ipojo-client</module>
-    <module>osgi</module>
+    <module>dummyejb</module>
   </modules>
 
 

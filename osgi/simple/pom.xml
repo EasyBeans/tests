@@ -36,6 +36,15 @@
   <name>EasyBeans: Tests :: OSGi :: Simple</name>
   <description>Simple test for testing EasyBeans OSGi</description>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.ow2.easybeans.tests</groupId>
+      <artifactId>easybeans-tests-osgi-applications-dummyejb</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+
   <build>
     <plugins>
       <plugin>
