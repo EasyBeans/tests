@@ -47,6 +47,7 @@
     <module>bean-inheritance</module>
     <module>accesstimeout</module>
     <module>stateful-sync</module>
+    <module>data-sources-definitions</module>
   </modules>
 
 
