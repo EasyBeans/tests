@@ -49,6 +49,7 @@
     <module>stateful-sync</module>
     <module>timer</module>
     <module>data-sources-definitions</module>
+    <module>stateful-timeout</module>
   </modules>
 
 
