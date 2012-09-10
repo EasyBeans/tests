@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ JOnAS: Java(TM) Open Application Server
+  ~ Copyright (C) 2012 Bull S.A.S.
+  ~ Contact: jonas-team@ow2.org
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+  ~
+  ~  $Id$
+  -->
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
+  version="3.1">
+
+  <enterprise-beans>
+
+    <!-- Session Bean -->
+    <session>
+      <ejb-name>OverrideAnnotationDSBean</ejb-name>
+      <mapped-name>OverrideAnnotationDSBeanEJB</mapped-name>
+      <business-remote>org.ow2.easybeans.application.datasources.IDSDefinitionBean</business-remote>
+      <ejb-class>org.ow2.easybeans.application.datasources.OverrideAnnotationDSBean</ejb-class>
+      <session-type>Stateless</session-type>
+      <data-source>
+        <name>java:comp/env/MyOverrideDS</name>
+        <isolation-level>TRANSACTION_READ_COMMITTED</isolation-level>
+      </data-source>
+      <data-source>
+        <name>java:comp/env/MyAddedDS</name>
+        <class-name>org.hsqldb.jdbc.jdbcDataSource</class-name>
+        <url>jdbc:hsqldb:mem:added</url>
+      </data-source>
+    </session>
+  </enterprise-beans>
+
+
+  
+</ejb-jar>

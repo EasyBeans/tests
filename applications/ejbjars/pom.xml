@@ -48,6 +48,7 @@
     <module>accesstimeout</module>
     <module>stateful-sync</module>
     <module>timer</module>
+    <module>data-sources-definitions</module>
   </modules>
 
 
