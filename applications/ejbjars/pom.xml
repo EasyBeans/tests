@@ -50,6 +50,7 @@
     <module>timer</module>
     <module>data-sources-definitions</module>
     <module>stateful-timeout</module>
+    <module>managed-beans</module>
   </modules>
 
 
