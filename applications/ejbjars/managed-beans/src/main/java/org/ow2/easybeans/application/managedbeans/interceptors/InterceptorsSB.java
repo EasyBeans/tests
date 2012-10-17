@@ -23,42 +23,36 @@
  * --------------------------------------------------------------------------
  */
 
-package org.ow2.easybeans.application.managedbeans;
+package org.ow2.easybeans.application.managedbeans.interceptors;
+
+import java.util.ArrayList;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 
+import org.ow2.easybeans.application.managedbeans.MBeanTest;
 import org.testng.Assert;
 
 /**
  * @author Loic Albertin
  */
-@Stateless(mappedName = "LifeCycleTest")
-public class LifeCycleSB implements MBeanTest {
+@Stateless(mappedName = "InterceptorsTest")
+public class InterceptorsSB implements MBeanTest {
 
     @Resource
-    LifeCycleMBean lifeCycleMBean1;
-
-    @Resource
-    LifeCycleMBean lifeCycleMBean2;
-
-    @Resource(mappedName = "java:module/LifeCycleMBean")
-    LifeCycleMBean lifeCycleMBean3;
-
-    @Resource(lookup = "java:module/LifeCycleMBean")
-    LifeCycleMBean lifeCycleMBean4;
+    AnnotationInterceptorMBean annotationInterceptorMBean;
 
     public void checkMBean() {
-        checkLifeCycleMBean(lifeCycleMBean1);
-        checkLifeCycleMBean(lifeCycleMBean2);
-        checkLifeCycleMBean(lifeCycleMBean3);
-        checkLifeCycleMBean(lifeCycleMBean4);
-        Assert.assertNotSame(lifeCycleMBean1, lifeCycleMBean2, "Lookup on a same ManagedBean name should return different objects");
-        Assert.assertNotSame(lifeCycleMBean3, lifeCycleMBean4, "Lookup on a same ManagedBean name should return different objects");
-    }
+        annotationInterceptorMBean.dummyCallWithExcludedClassInterceptors(new ArrayList<String>());
+        annotationInterceptorMBean.dummyCallWithExcludedDefaultInterceptors(new ArrayList<String>());
+        annotationInterceptorMBean.dummyCallWithMethodInterceptor(new ArrayList<String>());
+        annotationInterceptorMBean.dummyCallWithOverridedInterceptors(new ArrayList<String>());
 
-    private void checkLifeCycleMBean(LifeCycleMBean lifeCycleMBean) {
-        Assert.assertNotNull(lifeCycleMBean, "LifeCycleMBean was not injected");
-        Assert.assertTrue(lifeCycleMBean.isPostConstructCalled(), "PostConstruct callback was not called");
+        // Interceptor should have changed the parameters
+        Assert.assertEquals(annotationInterceptorMBean.testAdd(3, 5), 3);
+        // Interceptor should have changed the parameters
+        Assert.assertEquals(annotationInterceptorMBean.testBoolean(false), true);
+
+        annotationInterceptorMBean.testManyProceed();
     }
 }

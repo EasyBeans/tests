@@ -23,25 +23,37 @@
  * --------------------------------------------------------------------------
  */
 
-package org.ow2.easybeans.application.managedbeans;
+package org.ow2.easybeans.application.managedbeans.lifecycle;
 
-import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
+
+import org.testng.Assert;
 
 /**
  * @author Loic Albertin
  */
-@ManagedBean("LifeCycleMBean")
-public class LifeCycleMBean {
+public class MySuperSuperInterceptor {
 
-    private boolean postConstructCalled = false;
+    public static final String INTERCEPTOR_NAME = "MySuperSuperInterceptor";
+
+    @EJB(name = "historyBean")
+    protected HistoryBean historyBean;
 
     @PostConstruct
-    private void postConstruct() {
-        postConstructCalled = true;
+    protected void postConstructInMySuperSuperInterceptor(InvocationContext invocationContext) {
+        try {
+            historyBean.recordInterceptor(MySuperSuperInterceptor.INTERCEPTOR_NAME);
+            invocationContext.proceed();
+        } catch (Exception e) {
+            Assert.fail("Error in business PostConstruct interceptor", e);
+        }
     }
 
-    public boolean isPostConstructCalled() {
-        return postConstructCalled;
+    @AroundInvoke
+    private Object aroundInvokeInSuperSuperInterceptor(InvocationContext invocationContext) throws Exception {
+        return invocationContext.proceed();
     }
 }
