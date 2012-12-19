@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.ow2.easybeans.tests</groupId>
     <artifactId>easybeans-tests-applications-ejbjars</artifactId>
-    <version>2.0.2-SNAPSHOT</version>
+    <version>2.0.2</version>
   </parent>
   <artifactId>easybeans-tests-applications-ejbjars-lookup</artifactId>
   <packaging>ejb</packaging>
